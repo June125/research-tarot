@@ -1,0 +1,313 @@
+page {
+  background: linear-gradient(180deg, #15122f 0%, #0e0c22 100%);
+  color: #f4f0e6;
+  font-family: -apple-system, "PingFang SC", "Helvetica Neue", sans-serif;
+}
+
+.page {
+  position: relative;
+  min-height: 100vh;
+  padding: 30rpx 32rpx 60rpx;
+  overflow: hidden;
+}
+
+.page::before {
+  content: '';
+  position: absolute;
+  left: -20%;
+  top: -18%;
+  width: 140%;
+  height: 60%;
+  background: radial-gradient(circle at 50% 50%, rgba(70, 54, 130, .55), rgba(70, 54, 130, 0) 65%);
+  pointer-events: none;
+}
+
+/* ---------- 标题 ---------- */
+.brand {
+  margin: 70rpx 0 10rpx;
+  text-align: center;
+  font-size: 68rpx;
+  font-weight: 700;
+  letter-spacing: 12rpx;
+  color: #e8c877;
+  text-shadow: 0 4rpx 20rpx rgba(232, 200, 119, .25);
+}
+.brand-sub { text-align: center; color: #9d96bd; font-size: 24rpx; letter-spacing: 6rpx; }
+.brand-en { text-align: center; color: #a98f4e; font-size: 20rpx; letter-spacing: 4rpx; margin-bottom: 60rpx; }
+
+/* ---------- 按钮 ---------- */
+.btn {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 30rpx 32rpx;
+  margin-bottom: 22rpx;
+  border-radius: 24rpx;
+  background: linear-gradient(135deg, rgba(232, 200, 119, .14), rgba(232, 200, 119, .04));
+  border: 1rpx solid rgba(232, 200, 119, .28);
+  text-align: left;
+  line-height: 1.4;
+}
+.btn.ghost { background: rgba(255, 255, 255, .04); }
+.btn:active { transform: scale(.98); background: rgba(232, 200, 119, .22); }
+.btn .ico { font-size: 46rpx; width: 60rpx; text-align: center; margin-right: 22rpx; }
+.btn .t { display: block; font-size: 31rpx; font-weight: 600; }
+.btn .d { display: block; font-size: 23rpx; color: #9d96bd; margin-top: 6rpx; }
+.btn-row { display: flex; margin-top: 30rpx; }
+.btn-row .btn { margin-bottom: 0; margin-right: 20rpx; justify-content: center; background: rgba(255, 255, 255, .05); }
+.btn-row .btn:last-child { margin-right: 0; }
+.btn-row .btn .ico { margin-right: 10rpx; width: auto; font-size: 30rpx; }
+
+.hint { margin-top: 40rpx; text-align: center; color: #a98f4e; font-size: 22rpx; letter-spacing: 2rpx; }
+
+/* ---------- 牌背 ---------- */
+.backface {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 24rpx;
+  background: radial-gradient(circle at 50% 40%, #3b2f6b 0%, #221a45 70%);
+  border: 1rpx solid rgba(232, 200, 119, .35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.backface .mark { color: rgba(232, 200, 119, .55); font-size: 60rpx; }
+.backface .ring { position: absolute; left: 16rpx; right: 16rpx; top: 16rpx; bottom: 16rpx; border: 1rpx solid rgba(232, 200, 119, .25); border-radius: 16rpx; }
+
+/* ---------- 翻牌容器 ---------- */
+.flip { width: 410rpx; height: 700rpx; margin: 26rpx auto 0; perspective: 1200rpx; }
+.flip-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform .85s cubic-bezier(.2, .8, .25, 1); }
+.flip.up .flip-inner { transform: rotateY(180deg); }
+.face { position: absolute; left: 0; top: 0; width: 100%; height: 100%; backface-visibility: hidden; }
+.face.front { transform: rotateY(180deg); }
+
+/* ---------- 牌面：韦特贴图 + 缩小的自创牌面 ---------- */
+.cardface {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 24rpx;
+  padding: 18rpx 18rpx 14rpx;
+  background: linear-gradient(170deg, #2c2453 0%, #1a1533 60%, #1f1940 100%);
+  border: 1rpx solid rgba(232, 200, 119, .4);
+  box-shadow: 0 20rpx 60rpx rgba(0, 0, 0, .5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
+.cardface::after {
+  content: '';
+  position: absolute;
+  left: 10rpx; right: 10rpx; top: 10rpx; bottom: 10rpx;
+  border: 1rpx solid rgba(232, 200, 119, .18);
+  border-radius: 18rpx;
+  pointer-events: none;
+  z-index: 2;
+}
+.art-wrap {
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8rpx 0;
+}
+.art {
+  max-width: 100%;
+  max-height: 100%;
+  width: 100%;
+  height: 100%;
+  border-radius: 12rpx;
+  transition: transform .55s ease;
+}
+.art.rv { transform: rotate(180deg); }
+
+/* ---------- 自创牌面：缩小放在韦特贴图下方 ---------- */
+.card-stack {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.mine {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 22rpx;
+  padding-top: 14rpx;
+  border-top: 1rpx solid rgba(232, 200, 119, .22);
+  opacity: 0;
+  transform: translateY(10rpx);
+  transition: opacity .45s ease, transform .45s ease;
+}
+.mine.show { opacity: 1; transform: none; }
+.mine-top { display: flex; align-items: center; }
+.mine-emo { font-size: 28rpx; margin-right: 10rpx; line-height: 1; }
+.mine-nm { font-size: 28rpx; font-weight: 700; letter-spacing: 4rpx; color: #fff6e2; }
+.mine-sc { font-size: 18rpx; line-height: 1; margin-left: 12rpx; padding: 5rpx 14rpx; border-radius: 20rpx;
+           letter-spacing: 1rpx; color: #e8c877; background: rgba(232, 200, 119, .12);
+           border: 1rpx solid rgba(232, 200, 119, .35); }
+.mine-kw { font-size: 19rpx; color: #e8c877; letter-spacing: 1rpx; margin-top: 6rpx; }
+.mine .pos {
+  margin-top: 8rpx;
+  font-size: 18rpx;
+  letter-spacing: 2rpx;
+  padding: 3rpx 18rpx;
+  border-radius: 40rpx;
+  border: 1rpx solid currentColor;
+}
+.mine .pos.up { color: #5fd6a4; }
+.mine .pos.down { color: #f08a8a; }
+
+/* ---------- 迷你牌面（三张牌阵） ---------- */
+.flip.mini { width: 196rpx; height: 336rpx; margin: 0; }
+.flip.mini .cardface { padding: 8rpx 8rpx 6rpx; border-radius: 18rpx; }
+.flip.mini .cardface::after { display: none; }
+.flip.mini .art { border-radius: 8rpx; }
+.mine.mini { margin-top: 14rpx; padding-top: 10rpx; }
+.mine.mini .mine-emo { font-size: 19rpx; margin-right: 5rpx; }
+.mine.mini .mine-nm { font-size: 20rpx; letter-spacing: 1rpx; }
+.mine.mini .mine-sc { font-size: 15rpx; margin-left: 6rpx; padding: 3rpx 9rpx; letter-spacing: 0; }
+.mine.mini .mine-kw { display: none; }
+.mine.mini .pos { margin-top: 4rpx; font-size: 15rpx; padding: 2rpx 10rpx; letter-spacing: 0; }
+.flip.pending { animation: breathe 1.8s infinite ease-in-out; }
+@keyframes breathe { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10rpx); } }
+
+/* ---------- 洗牌 ---------- */
+.shuffle-wrap { position: relative; width: 400rpx; height: 660rpx; margin: 120rpx auto 40rpx; }
+.shuffle-wrap .sb { position: absolute; left: 0; top: 0; width: 100%; height: 100%; animation: shuf 1.1s infinite ease-in-out; }
+.shuffle-wrap .sb:nth-child(2) { animation-delay: .12s; }
+.shuffle-wrap .sb:nth-child(3) { animation-delay: .24s; }
+.shuffle-wrap .sb:nth-child(4) { animation-delay: .36s; }
+.shuffle-wrap .sb:nth-child(5) { animation-delay: .48s; }
+@keyframes shuf {
+  0% { transform: translateX(0) rotate(-5deg); }
+  30% { transform: translateX(-48rpx) rotate(3deg); }
+  60% { transform: translateX(44rpx) rotate(-2deg); }
+  100% { transform: translateX(0) rotate(-5deg); }
+}
+.shuffle-txt { text-align: center; color: #9d96bd; font-size: 26rpx; letter-spacing: 8rpx; animation: pulse 1.4s infinite; }
+@keyframes pulse { 0%, 100% { opacity: .45; } 50% { opacity: 1; } }
+
+/* ---------- 解读 ---------- */
+.readout {
+  margin-top: 30rpx;
+  background: rgba(255, 255, 255, .045);
+  border: 1rpx solid rgba(232, 200, 119, .22);
+  border-radius: 24rpx;
+  padding: 30rpx 28rpx;
+}
+.readout .lb { font-size: 22rpx; color: #e8c877; letter-spacing: 4rpx; margin-bottom: 14rpx; }
+.readout .txt { font-size: 27rpx; line-height: 1.85; color: #e9e4d8; }
+.advice { background: rgba(95, 214, 164, .07); border-color: rgba(95, 214, 164, .3); }
+.advice .lb { color: #5fd6a4; }
+.research { background: rgba(232, 200, 119, .08); border-color: rgba(232, 200, 119, .32); }
+
+/* ---------- 三张牌阵 ---------- */
+.spread-row { display: flex; justify-content: space-between; margin-top: 20rpx; }
+.spread-col { display: flex; flex-direction: column; align-items: center; }
+.slot-lb { font-size: 22rpx; color: #a98f4e; letter-spacing: 4rpx; margin-bottom: 16rpx; }
+.spread-detail { margin-top: 40rpx; }
+.sd-item {
+  background: rgba(255, 255, 255, .045);
+  border: 1rpx solid rgba(232, 200, 119, .22);
+  border-radius: 20rpx;
+  padding: 26rpx;
+  margin-bottom: 20rpx;
+}
+.sd-h { display: flex; align-items: center; margin-bottom: 14rpx; }
+.sd-h .nm { font-size: 28rpx; font-weight: 600; letter-spacing: 3rpx; margin-right: 14rpx; }
+.sd-tag { font-size: 20rpx; padding: 3rpx 16rpx; border-radius: 20rpx; border: 1rpx solid currentColor; }
+.sd-tag.up { color: #5fd6a4; }
+.sd-tag.down { color: #f08a8a; }
+.sd-sc { font-size: 19rpx; padding: 3rpx 14rpx; border-radius: 20rpx; color: #e8c877;
+         background: rgba(232, 200, 119, .1); border: 1rpx solid rgba(232, 200, 119, .35); }
+.sd-p { font-size: 25rpx; line-height: 1.8; color: #ddd7c9; }
+.sd-rs {
+  margin-top: 16rpx; font-size: 24rpx; line-height: 1.7; color: #e8c877;
+  background: rgba(232, 200, 119, .08);
+  padding: 16rpx 18rpx; border-radius: 14rpx;
+  border-left: 4rpx solid rgba(232, 200, 119, .5);
+}
+.sd-ad { margin-top: 12rpx; font-size: 24rpx; line-height: 1.7; color: #5fd6a4; }
+
+.summary {
+  margin-top: 8rpx;
+  background: linear-gradient(135deg, rgba(232, 200, 119, .16), rgba(232, 200, 119, .03));
+  border: 1rpx solid rgba(232, 200, 119, .28);
+  border-radius: 24rpx;
+  padding: 34rpx 30rpx;
+}
+.summary .lv { font-size: 40rpx; font-weight: 700; letter-spacing: 8rpx; color: #e8c877; margin-bottom: 14rpx; }
+.summary .txt { font-size: 26rpx; line-height: 1.8; color: #e9e4d8; }
+
+/* ---------- 分组 tab ---------- */
+.tabs { display: flex; white-space: nowrap; margin: 8rpx 0; }
+.tab {
+  display: inline-block;
+  padding: 12rpx 26rpx;
+  margin-right: 14rpx;
+  border-radius: 40rpx;
+  font-size: 24rpx;
+  color: #9d96bd;
+  background: rgba(255, 255, 255, .05);
+  border: 1rpx solid rgba(232, 200, 119, .22);
+}
+.tab.on { background: rgba(232, 200, 119, .18); color: #e8c877; border-color: rgba(232, 200, 119, .55); font-weight: 600; }
+
+/* ---------- 图鉴 ---------- */
+.grid { display: flex; flex-wrap: wrap; justify-content: space-between; margin-top: 24rpx; }
+.mini {
+  position: relative;
+  width: 216rpx;
+  margin-bottom: 22rpx;
+  padding: 12rpx 12rpx 16rpx;
+  background: linear-gradient(170deg, #2c2453, #1a1533);
+  border: 1rpx solid rgba(232, 200, 119, .28);
+  border-radius: 20rpx;
+  text-align: center;
+  overflow: hidden;
+}
+.mini .thumb { width: 100%; height: 340rpx; border-radius: 12rpx; display: block; }
+.mini .n { font-size: 26rpx; font-weight: 600; letter-spacing: 2rpx; margin-top: 12rpx; color: #fff3dd; }
+.mini .a { font-size: 19rpx; color: #9d96bd; margin-top: 4rpx; }
+
+/* ---------- 弹层 ---------- */
+.mask { position: fixed; left: 0; top: 0; right: 0; bottom: 0; background: rgba(6, 5, 16, .72); z-index: 20; display: flex; align-items: flex-end; }
+.sheet {
+  width: 100%;
+  max-height: 82vh;
+  overflow-y: auto;
+  background: linear-gradient(180deg, #221c42, #15122e);
+  border-top: 1rpx solid rgba(232, 200, 119, .28);
+  border-radius: 40rpx 40rpx 0 0;
+  padding: 40rpx 36rpx 60rpx;
+}
+.sh-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24rpx; }
+.sh-head .t { font-size: 38rpx; font-weight: 700; letter-spacing: 5rpx; }
+.sh-head .c { color: #9d96bd; font-size: 40rpx; line-height: 1; }
+.sh-hero { display: flex; margin-bottom: 30rpx; }
+.sh-hero image { width: 200rpx; height: 340rpx; border-radius: 12rpx; margin-right: 26rpx; }
+.sh-hero .meta { flex: 1; min-width: 0; }
+.sh-hero .meta .e { font-size: 44rpx; line-height: 1; }
+.sh-hero .meta .n { font-size: 32rpx; font-weight: 700; letter-spacing: 3rpx; margin-top: 12rpx; color: #fff3dd; }
+.sh-hero .meta .sc { display: inline-block; font-size: 21rpx; padding: 5rpx 16rpx; border-radius: 22rpx;
+                     margin-top: 12rpx; letter-spacing: 1rpx; color: #e8c877;
+                     background: rgba(232, 200, 119, .12); border: 1rpx solid rgba(232, 200, 119, .35); }
+.sh-hero .meta .k { font-size: 22rpx; color: #e8c877; margin-top: 12rpx; letter-spacing: 1rpx; }
+.sh-hero .meta .en { font-size: 19rpx; color: #9d96bd; margin-top: 8rpx; line-height: 1.5; }
+.sh-line { margin-bottom: 26rpx; }
+.sh-line .k { font-size: 22rpx; color: #e8c877; letter-spacing: 3rpx; margin-bottom: 10rpx; }
+.sh-line .v { font-size: 27rpx; line-height: 1.8; color: #e6e0d2; }
+.sh-line .v.up { color: #5fd6a4; }
+.sh-line .v.down { color: #f08a8a; }
+.sh-line.rs {
+  background: rgba(232, 200, 119, .08);
+  border-left: 4rpx solid #e8c877;
+  padding: 18rpx 20rpx;
+  border-radius: 0 16rpx 16rpx 0;
+}

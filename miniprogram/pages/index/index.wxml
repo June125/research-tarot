@@ -1,0 +1,31 @@
+<view class="page">
+  <view class="brand">科研塔罗牌</view>
+  <view class="brand-sub">R E S E A R C H　T A R O T</view>
+  <view class="brand-en">78 CARDS · RIDER-WAITE-SMITH</view>
+
+  <view class="btn" bindtap="goSingle">
+    <view class="ico">🔮</view>
+    <view>
+      <view class="t">今日一抽</view>
+      <view class="d">{{todayText}}</view>
+    </view>
+  </view>
+
+  <view class="btn" bindtap="goThree">
+    <view class="ico">🎴</view>
+    <view>
+      <view class="t">三张牌阵</view>
+      <view class="d">过去 · 现在 · 未来 · 全 78 张牌池</view>
+    </view>
+  </view>
+
+  <view class="btn ghost" bindtap="goGallery">
+    <view class="ico">📖</view>
+    <view>
+      <view class="t">牌面图鉴</view>
+      <view class="d">78 张完整牌库 · 五组分类查阅</view>
+    </view>
+  </view>
+
+  <view class="hint">娱乐为主 · 建议为辅 · 别拿它决定人生</view>
+</view>

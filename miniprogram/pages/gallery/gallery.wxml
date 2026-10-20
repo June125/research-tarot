@@ -1,0 +1,51 @@
+<view class="page">
+  <scroll-view class="tabs" scroll-x>
+    <view class="tab {{curGroup === item.key ? 'on' : ''}}" wx:for="{{groups}}" wx:key="key"
+          data-k="{{item.key}}" bindtap="switchGroup">{{item.label}}</view>
+  </scroll-view>
+
+  <view class="grid">
+    <view class="mini" wx:for="{{list}}" wx:key="id" data-i="{{index}}" bindtap="openSheet">
+      <image class="thumb" src="{{imgBase}}{{item.img}}" mode="aspectFill" lazy-load></image>
+      <view class="n">{{item.name}}</view>
+      <view class="a">{{item.sub}}</view>
+    </view>
+  </view>
+
+  <view class="mask" wx:if="{{cur}}" bindtap="closeSheet">
+    <view class="sheet" catchtap="noop">
+      <view class="sh-head">
+        <view class="t">{{cur.roman}} · {{cur.name}}</view>
+        <view class="c" bindtap="closeSheet">✕</view>
+      </view>
+
+      <view class="sh-hero">
+        <image src="{{imgBase}}{{cur.img}}" mode="aspectFit"></image>
+        <view class="meta">
+          <view class="e">{{cur.emoji}}</view>
+          <view class="n">{{cur.en}}</view>
+          <view class="sc" wx:if="{{cur.scene}}">{{cur.scene}}</view>
+          <view class="k">{{cur.kw}}</view>
+          <view class="en">{{cur.arcana === 'major' ? '大阿尔卡纳' : cur.element}}</view>
+        </view>
+      </view>
+
+      <view class="sh-line">
+        <view class="k">正 位 · 事业学业</view>
+        <view class="v up">{{cur.upright}}</view>
+      </view>
+      <view class="sh-line">
+        <view class="k">逆 位 · 事业学业</view>
+        <view class="v down">{{cur.revText}}</view>
+      </view>
+      <view class="sh-line rs">
+        <view class="k">科 研 预 测</view>
+        <view class="v">{{cur.research}}</view>
+      </view>
+      <view class="sh-line">
+        <view class="k">行 动 建 议</view>
+        <view class="v">{{cur.advice}}</view>
+      </view>
+    </view>
+  </view>
+</view>

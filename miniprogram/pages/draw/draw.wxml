@@ -1,0 +1,124 @@
+<view class="page">
+
+  <!-- 洗牌 -->
+  <block wx:if="{{step === 'shuffle'}}">
+    <view class="shuffle-wrap">
+      <view class="sb"><view class="backface"><view class="ring"></view><view class="mark">✦</view></view></view>
+      <view class="sb"><view class="backface"><view class="ring"></view><view class="mark">✦</view></view></view>
+      <view class="sb"><view class="backface"><view class="ring"></view><view class="mark">✦</view></view></view>
+      <view class="sb"><view class="backface"><view class="ring"></view><view class="mark">✦</view></view></view>
+      <view class="sb"><view class="backface"><view class="ring"></view><view class="mark">✦</view></view></view>
+    </view>
+    <view class="shuffle-txt">洗 牌 中</view>
+  </block>
+
+  <!-- 单张：今日一抽（只抽大阿尔卡纳） -->
+  <block wx:if="{{step === 'result' && mode === 'single'}}">
+    <view class="card-stack">
+      <view class="flip {{flipped ? 'up' : ''}}" bindtap="flipSingle">
+        <view class="flip-inner">
+          <view class="face"><view class="backface"><view class="ring"></view><view class="mark">✦</view></view></view>
+          <view class="face front">
+            <view class="cardface">
+              <view class="art-wrap">
+                <image class="art {{card.reversed ? 'rv' : ''}}" src="{{imgBase}}{{card.img}}" mode="aspectFit" lazy-load></image>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <!-- 自创牌面：缩小放在韦特贴图下方 -->
+      <view class="mine {{flipped ? 'show' : ''}}">
+        <view class="mine-top">
+          <text class="mine-emo">{{card.emoji}}</text>
+          <text class="mine-nm">{{card.name}}</text>
+        <text class="mine-sc" wx:if="{{card.scene}}">{{card.scene}}</text>
+        </view>
+        <view class="mine-kw">{{card.kw}}</view>
+        <view class="pos {{card.reversed ? 'down' : 'up'}}">{{card.reversed ? '逆位 · Reversed' : '正位 · Upright'}}</view>
+      </view>
+    </view>
+
+    <view class="readout">
+      <view class="lb">解 读 · {{card.reversed ? '逆位' : '正位'}}（事业学业）</view>
+      <view class="txt">{{card.reversed ? card.revText : card.upright}}</view>
+    </view>
+    <view class="readout research">
+      <view class="lb">科 研 预 测</view>
+      <view class="txt">{{card.research}}</view>
+    </view>
+    <view class="readout advice">
+      <view class="lb">行 动 建 议</view>
+      <view class="txt">{{card.advice}}</view>
+    </view>
+
+    <view class="btn-row">
+      <view class="btn" bindtap="copy">
+        <view class="ico">📋</view><view><view class="t">复制文案</view></view>
+      </view>
+      <view class="btn" bindtap="backHome">
+        <view class="ico">🏠</view><view><view class="t">返回</view></view>
+      </view>
+    </view>
+  </block>
+
+  <!-- 三张牌阵（全 78 张牌池） -->
+  <block wx:if="{{step === 'result' && mode === 'three'}}">
+    <view class="spread-row">
+      <view class="spread-col" wx:for="{{cards}}" wx:key="id">
+        <view class="slot-lb">{{slots[index]}}</view>
+        <view class="card-stack">
+          <view class="flip mini {{flips[index] ? 'up' : ''}} {{flips[index] ? '' : 'pending'}}" data-i="{{index}}" bindtap="flipOne">
+            <view class="flip-inner">
+              <view class="face"><view class="backface"><view class="ring"></view><view class="mark">✦</view></view></view>
+              <view class="face front">
+                <view class="cardface">
+                  <view class="art-wrap">
+                    <image class="art {{item.reversed ? 'rv' : ''}}" src="{{imgBase}}{{item.img}}" mode="aspectFit"></image>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </view>
+          <!-- 自创牌面：缩小放在韦特贴图下方 -->
+          <view class="mine mini {{flips[index] ? 'show' : ''}}">
+            <view class="mine-top">
+              <text class="mine-emo">{{item.emoji}}</text>
+              <text class="mine-nm">{{item.name}}</text>
+                    <text class="mine-sc" wx:if="{{item.scene}}">{{item.scene}}</text>
+            </view>
+            <view class="pos {{item.reversed ? 'down' : 'up'}}">{{item.reversed ? '逆' : '正'}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="spread-detail" wx:if="{{showDetail}}">
+      <view class="sd-item" wx:for="{{detail}}" wx:key="slot">
+        <view class="sd-h">
+          <view class="nm">{{item.slot}} · {{item.title}}</view>
+          <view class="sd-sc" wx:if="{{item.scene}}">{{item.scene}}</view>
+          <view class="sd-tag {{item.reversed ? 'down' : 'up'}}">{{item.reversed ? '逆位' : '正位'}}</view>
+        </view>
+        <view class="sd-p">{{item.text}}</view>
+        <view class="sd-rs">🔬 {{item.research}}</view>
+        <view class="sd-ad">→ {{item.advice}}</view>
+      </view>
+    </view>
+
+    <view class="summary" wx:if="{{showDetail}}">
+      <view class="lv">{{summary.level}}</view>
+      <view class="txt">{{summary.text}}</view>
+    </view>
+
+    <view class="btn-row">
+      <view class="btn" bindtap="copy">
+        <view class="ico">📋</view><view><view class="t">复制文案</view></view>
+      </view>
+      <view class="btn" bindtap="redraw">
+        <view class="ico">🔄</view><view><view class="t">再抽一次</view></view>
+      </view>
+    </view>
+  </block>
+
+</view>

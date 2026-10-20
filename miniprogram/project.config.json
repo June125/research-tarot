@@ -1,0 +1,20 @@
+{
+  "description": "科研塔罗牌 · Research Tarot",
+  "packOptions": { "ignore": [], "include": [] },
+  "setting": {
+    "urlCheck": false,
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "minified": true,
+    "newFeature": true,
+    "coverView": true,
+    "nodeModules": false
+  },
+  "compileType": "miniprogram",
+  "libVersion": "3.0.0",
+  "appid": "touristappid",
+  "projectname": "research-tarot",
+  "simulatorType": "wechat",
+  "condition": {}
+}
