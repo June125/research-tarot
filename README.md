@@ -13,31 +13,48 @@
 node tools/build.js
 ```
 
-它会自动做三件事：
+它会自动做四件事：
 1. 重建 `miniprogram/utils/cards.js`（小程序的数据源）
-2. 把数据注入 `preview/index.html`（预览版源文件）
+2. 把数据注入 `preview/src.html`（预览版源文件）
 3. 生成 **`科研塔罗牌.html`**（单机版，78 张牌图已内嵌，双击就能看）
+4. 刷新 **`docs/`**（站点版，图走独立文件，给 GitHub Pages 用）
 
-三个产物里前两个是中间物，`科研塔罗牌.html` 是最终能直接打开的那个，都**不要手改**，手改会被下次构建覆盖。
+四个产物都是**生成物，不要手改**，手改会被下次构建覆盖。
 
-构建时会校验：必须正好 78 张（22/14/14/14/14），六个字段一个都不能少，缺了会直接报错并指出是哪一张。
+构建时会校验：必须正好 78 张（22/14/14/14/14），六个字段一个都不能少，缺了会直接报错并指出是哪一张；
+`docs/` 还会额外校验 78 张图是否都在位。
 
 ## 目录
 
 ```
 research-tarot/
 ├─ 文案/牌义文案.md        ← 唯一文案来源，你改这个
-├─ 科研塔罗牌.html          ← 生成物：单机预览版，牌图已内嵌，双击就开
+├─ 科研塔罗牌.html          ← 生成物：单机版，牌图已内嵌，双击就开 / 发给朋友
+├─ docs/                   ← 生成物：站点版，给 GitHub Pages 用（index.html + assets/）
+├─ 发布指南.md              ← 怎么发到 GitHub Pages 拿公开网址
 ├─ tools/build.js          ← 文案 → 代码 的构建脚本（跑它就够）
-├─ tools/build_standalone.js ← 把牌图内嵌成单文件（build.js 会自动调用）
+├─ tools/build_standalone.js ← 把牌图内嵌成单文件（build.js 自动调用）
+├─ tools/build_ghpages.js  ← 生成 docs/ 站点版（build.js 自动调用）
 ├─ tools/fetch_images.js   ← 抓韦特牌图的脚本（一般不用再跑）
 ├─ assets/cards/           ← 78 张牌图（320px 宽，共 4.9 MB）
-├─ preview/src.html        ← 预览版源文件（依赖 assets/，被 build.js 注入，不直接打开）
+├─ preview/src.html        ← 源文件，被 build.js 注入，**不直接打开**
 └─ miniprogram/            ← 微信小程序源码
    ├─ assets/cards/        ← 同上 78 张图
    ├─ utils/cards.js       ← 生成物
    └─ pages/{index,draw,gallery}
 ```
+
+## 两种发布形态
+
+| | 单机版 `科研塔罗牌.html` | 站点版 `docs/` |
+|---|---|---|
+| 牌图 | 内嵌成 base64 | 独立文件 `assets/cards/` |
+| 体积 | 6.4 MB 一整个文件 | 78 KB 页面 + 4.9 MB 图 |
+| 适合 | 微信发给朋友、离线看、AirDrop | GitHub Pages / 任意静态服务器 |
+| 首屏 | 要等 6.4 MB 下完 | 78 KB 秒开，图按需加载 |
+| 离线 | ✅ | ❌ |
+
+两者代码同源，都从 `preview/src.html` 生成，只是 `IMG_DATA` 有没有被填充的区别。
 
 ## 看效果用哪个文件
 
@@ -52,9 +69,20 @@ research-tarot/
 - 首页标题下方有一枚**版本徽章**，写着「构建于 YYYY-MM-DD HH:mm」，每次 `node tools/build.js` 都会变。
 - 每次构建都会**自动作废上一次的「今日一抽」记录**，所以只要重新构建过，再点进去一定是新抽的一张，不会停在旧牌上。
 - 结果页有「🔄 换一张」，随时重抽，不用清缓存。
-- 如果你打开的是 `preview/src.html`（源文件，牌图未内嵌），页面会**自己弹一条红色警告**告诉你打开错了 —— 不会让你对着空白牌面猜。
+- 牌图取不到时页面会**自己弹红色警告**，并把原因写在上面（是内嵌库里缺这张，还是 `assets/cards/` 目录没跟页面放在一起）—— 不用对着空白牌面猜。
 
 改完文件如果页面没变化，先 **Cmd + Shift + R 强制刷新**，再看徽章上的构建时间。
+
+## 发布到网上（GitHub Pages）
+
+本地 git 仓库已经建好（`main` 分支，261 个文件已提交）。完整步骤见 **`发布指南.md`**，
+简述：GitHub 建一个**空的 Public 仓库** → `git remote add origin ... && git push -u origin main`
+→ 仓库 Settings → Pages → Source 选 `Deploy from a branch`，分支 `main`、文件夹 `/docs` → 保存。
+
+网址形如 `https://你的用户名.github.io/research-tarot/`，发给朋友直接能开。
+
+⚠️ Public 仓库意味着代码和文案**公开可见**。介意的话就别发 Pages，直接把
+`科研塔罗牌.html` 当文件发给朋友。
 
 ## 玩法
 
