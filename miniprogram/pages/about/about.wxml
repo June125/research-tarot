@@ -1,4 +1,5 @@
 <view class="page about">
+  <view class="backbar" bindtap="goBack">← 返回</view>
   <view class="hd">关于科研灵感卡</view>
 
   <view class="sec">

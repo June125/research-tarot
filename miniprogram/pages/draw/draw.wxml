@@ -1,5 +1,22 @@
 <view class="page">
 
+  <!-- 投稿结果信封 -->
+  <block wx:if="{{step === 'mail'}}">
+    <view class="mail-wrap">
+      <view class="mailcard">
+        <view class="m-close" bindtap="backHome">✕</view>
+        <view class="m-stamp">📮</view>
+        <view class="m-t">Submission Status · Editorial Office</view>
+        <view class="m-line">Dear Researcher,</view>
+        <view class="m-line">Thank you for your submission.</view>
+        <view class="m-accept">After a careful round of review, we are happy to inform you that</view>
+        <view class="m-accept big">ACCEPTED 🎉</view>
+        <view class="m-note">（编辑部附言：审稿意见已整理成三张行动卡，翻开即可查收）</view>
+        <view class="m-btn" bindtap="openMail">拆 开 看 看</view>
+      </view>
+    </view>
+  </block>
+
   <!-- 准备中 -->
   <block wx:if="{{step === 'shuffle'}}">
     <view class="shuffle-wrap">
@@ -65,7 +82,7 @@
         <view class="ico">📋</view><view><view class="t">复制文案</view></view>
       </view>
       <view class="btn" bindtap="redraw">
-        <view class="ico">🔄</view><view><view class="t">再换一组</view></view>
+        <view class="ico">🔄</view><view><view class="t">再来一组</view></view>
       </view>
     </view>
 

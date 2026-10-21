@@ -555,3 +555,45 @@ page {
   color: #15122e;
   font-weight: 700;
 }
+
+
+/* ---------- 返回键 / 收藏页头 / 信封容器 ---------- */
+.backbar {
+  display: inline-block;
+  margin: 18rpx 0 4rpx;
+  padding: 10rpx 26rpx;
+  border-radius: 30rpx;
+  background: #231f45;
+  border: 1rpx solid #3a3468;
+  font-size: 24rpx;
+  color: #b9b3d0;
+  letter-spacing: 2rpx;
+}
+.cl-head { padding: 10rpx 4rpx 22rpx; }
+.cl-head .t {
+  font-size: 38rpx;
+  font-weight: 700;
+  letter-spacing: 4rpx;
+  color: #fff3dd;
+}
+.cl-head .s {
+  margin-top: 8rpx;
+  font-size: 22rpx;
+  color: #9d96bd;
+  letter-spacing: 1rpx;
+}
+.mail-wrap {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30rpx 0;
+}
+.m-close {
+  position: absolute;
+  right: 22rpx;
+  top: 14rpx;
+  font-size: 30rpx;
+  color: #a39a8b;
+  padding: 6rpx;
+}

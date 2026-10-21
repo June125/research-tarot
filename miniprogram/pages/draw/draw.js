@@ -12,7 +12,7 @@ const IMG_BASE = '/assets/cards/';
 
 Page({
   data: {
-    step: 'shuffle',
+    step: 'mail',
     imgBase: IMG_BASE,
     cards: [],
     flips: [false, false, false],
@@ -24,11 +24,16 @@ Page({
 
   onLoad: function () {
     wx.setNavigationBarTitle({ title: '我该怎么做' });
+  },
+
+  /* 拆开 ACCEPTED 信封 → 发牌 */
+  openMail: function () {
     this.dealAfterShuffle();
   },
 
   dealAfterShuffle: function () {
     const self = this;
+    this.setData({ step: 'shuffle' });
     setTimeout(function () { self.deal(); }, 1500);
   },
 
@@ -79,8 +84,7 @@ Page({
   },
 
   redraw: function () {
-    this.setData({ step: 'shuffle', showDetail: false, detail: [], flips: [false, false, false] });
-    this.dealAfterShuffle();
+    this.setData({ step: 'mail', showDetail: false, detail: [], flips: [false, false, false] });
   },
 
   backHome: function () {

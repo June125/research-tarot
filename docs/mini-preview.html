@@ -41,6 +41,15 @@
   .gh-btn .ico{font-size:18px;margin-bottom:4px}
   .collect-bar{font-size:12px;color:var(--sub);text-align:center;padding:0 0 16px}
 
+  /* 返回键 / 收藏页头 */
+  .backbar{display:inline-block;margin:12px 0 4px;padding:6px 16px;border-radius:16px;
+    background:var(--card);border:1px solid var(--line);font-size:12px;color:#b9b3d0;cursor:pointer}
+  .cl-head{padding:8px 2px 14px}
+  .cl-head .t{font-size:19px;font-weight:700;letter-spacing:2px;color:#fff3dd}
+  .cl-head .s{margin-top:5px;font-size:11px;color:var(--sub)}
+  .m-close{position:absolute;right:10px;top:8px;font-size:15px;color:#a39a8b;cursor:pointer}
+  .mail-wrap{min-height:70vh;display:flex;align-items:center;justify-content:center}
+
   /* 今日一句 */
   .daily{background:linear-gradient(135deg,#2a2452,#1c1838);border:1px solid #3f3970;
     border-radius:12px;padding:12px 15px;margin-bottom:13px;cursor:pointer}
@@ -162,15 +171,45 @@
     <div class="gh-actions">
       <div class="gh-btn accent" onclick="checkResult()"><span class="ico">📬</span>查收 Result</div>
       <div class="gh-btn ghost" onclick="go('draw')"><span class="ico">🧭</span>我该怎么做</div>
+    </div>
+    <div class="gh-actions">
+      <div class="gh-btn ghost" onclick="go('collection')"><span class="ico">🗂</span>我的收藏 <span id="cbar">0/78</span></div>
       <div class="gh-btn ghost" onclick="go('about')"><span class="ico">📄</span>关于</div>
     </div>
-    <div class="collect-bar" id="cbar">已读 0 / 78</div>
+
+    <div class="hint">内容为通用科研经验整理<br>不构成针对个人的判断</div>
+  </div>
+
+  <!-- 我的收藏 -->
+  <div class="page" id="p-collection" style="display:none">
+    <div class="backbar" onclick="go('gallery')">← 返回</div>
+    <div class="cl-head">
+      <div class="t">我的收藏</div>
+      <div class="s">已读 <span id="clbar">0</span> / 78 张 · 翻过的卡都会记在这里</div>
+    </div>
     <div class="tabs" id="tabs"></div>
     <div class="grid" id="grid"></div>
   </div>
 
   <!-- 我该怎么做 -->
   <div class="page" id="p-draw" style="display:none">
+    <div class="backbar" onclick="go('gallery')">← 返回</div>
+    <!-- 信封 -->
+    <div class="mail-wrap" id="drawMail">
+      <div class="mailcard">
+        <div class="m-close" onclick="go('gallery')">✕</div>
+        <div class="m-stamp">📮</div>
+        <div class="m-t">Submission Status · Editorial Office</div>
+        <div class="m-line">Dear Researcher,</div>
+        <div class="m-line">Thank you for your submission.</div>
+        <div class="m-accept">After a careful round of review, we are happy to inform you that</div>
+        <div class="m-accept big">ACCEPTED 🎉</div>
+        <div class="m-note">（编辑部附言：审稿意见已整理成三张行动卡，翻开即可查收）</div>
+        <div class="m-btn" onclick="drawSpread()">拆 开 看 看</div>
+      </div>
+    </div>
+    <!-- 结果 -->
+    <div id="drawResult" style="display:none">
     <div class="sp-head">
       <div class="t">我 该 怎 么 做</div>
       <div class="s">卡在哪 · 怎么破 · 怎么收</div>
@@ -179,11 +218,14 @@
       <div class="sp-detail" id="spDetail"></div>
       <div class="sum"><div class="lv">综合提示</div><p id="spSum"></p></div>
       <div class="again"><div class="btn" onclick="redraw()">再 来 一 组</div></div>
+      <div class="backbar" style="margin-top:14px" onclick="go('gallery')">← 返回卡片库</div>
     </div>
+  </div>
 
     <!-- 关于 -->
     <div class="page" id="p-about" style="display:none">
       <div class="about">
+        <div class="backbar" onclick="go('gallery')">← 返回</div>
         <div class="hd">关于科研灵感卡</div>
         <div class="sec">
           <div class="t">这是什么</div>
@@ -210,7 +252,8 @@
   </div>
 
   <div class="mask" id="mailmask" onclick="if(event.target===this)closeMail()">
-    <div class="mailcard">
+    <div class="mailcard" style="position:relative">
+      <div class="m-close" onclick="closeMail()">✕</div>
       <div class="m-stamp">📮</div>
       <div class="m-t">Submission Status · Editorial Office</div>
       <div class="m-line">Dear Researcher,</div>
@@ -231,6 +274,7 @@
   <div class="tabbar">
     <div class="tb on" data-p="gallery" onclick="go('gallery')"><span class="ico">🗂</span>卡片库</div>
     <div class="tb" data-p="draw" onclick="go('draw')"><span class="ico">🧭</span>我该怎么做</div>
+    <div class="tb" data-p="collection" onclick="go('collection')"><span class="ico">⭐</span>我的收藏</div>
     <div class="tb" data-p="about" onclick="go('about')"><span class="ico">📄</span>关于</div>
   </div>
 </div>
@@ -243,7 +287,7 @@ var CARDS = [{"id":0,"arcana":"major","suit":null,"suitName":"主牌","element":
 var SUIT_ORDER = [{"key":"major","label":"主牌","en":"Main · 22 张"},{"key":"wands","label":"权杖","en":"Wands · 火"},{"key":"cups","label":"圣杯","en":"Cups · 水"},{"key":"swords","label":"宝剑","en":"Swords · 风"},{"key":"pent","label":"星币","en":"Pentacles · 土"}];
 var SLOT_MINI = ["卡在哪","怎么破","怎么收"];
 var SPREAD_TIP = {"UUU":"三条都能直接照做。先按「卡在哪」确认问题，把「怎么破」今天落地一半，收尾用「怎么收」兜底。","RUU":"起步别纠结，「卡在哪」那条先换个角度看，把力气花在「怎么破」上，「怎么收」照做即可。","UUR":"前两条照常推进，最后一步留个备选——「怎么收」那格给了另一个角度，提前想好 Plan B。","URU":"卡点清楚，「怎么破」那格需要换个角度看。先照「卡在哪」确认范围，再从新角度试一次破法。","RUR":"两头的信息有点绕，中间「怎么破」是唯一主线。只做这一件事，前后两条留到明天再对。","RRU":"前两格都提示换角度，只有「怎么收」是明确可执行的。先把收尾做好，再回头处理前两条。","URR":"起点是清楚的，破法和收尾都要换角度。今天就做一件事：照「卡在哪」把问题写下来，破法明天再定。","RRR":"三条都建议换个角度看，说明旧思路该整体翻新了。今天先把三条抄下来对照着看，明天再动手。"};
-var BUILD_AT = '2026-10-21 19:10';
+var BUILD_AT = '2026-10-21 19:33';
 
 var KEY='rt_read_v3';
 function reads(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){return[]}}
@@ -273,6 +317,9 @@ function renderGrid(){
       +'<div class="a">'+(c.arcana==='major'?'主牌':c.suitName+' '+c.roman)+'</div></div>';
   });
   document.getElementById('grid').innerHTML=h;
+  var n=reads().length;
+  document.getElementById('cbar').textContent=n+'/78';
+  document.getElementById('clbar').textContent=n;
 }
 function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;')}
 function openCard(id){
@@ -327,6 +374,8 @@ function drawSpread(){
   for(var i=pool.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=pool[i];pool[i]=pool[j];pool[j]=t}
   spread=pool.slice(0,3).map(function(c){return {c:c,reversed:Math.random()<0.32}});
   renderSpread();
+  document.getElementById('drawMail').style.display='none';
+  document.getElementById('drawResult').style.display='block';
 }
 function renderSpread(){
   var rh='',dh='';
@@ -347,20 +396,25 @@ function renderSpread(){
   var key=spread.map(function(o){return o.reversed?'R':'U'}).join('');
   document.getElementById('spSum').textContent=SPREAD_TIP[key]||'';
 }
-function redraw(){drawSpread()}
+function redraw(){showDrawMail()}
 
-var TITLES={gallery:'科研灵感卡',draw:'我该怎么做',about:'关于与反馈'};
+var TITLES={gallery:'科研灵感卡',collection:'我的收藏',draw:'我该怎么做',about:'关于与反馈'};
 function go(p){
-  ['gallery','draw','about'].forEach(function(k){
+  ['gallery','collection','draw','about'].forEach(function(k){
     document.getElementById('p-'+k).style.display = (k===p?'block':'none');
   });
   document.querySelectorAll('.tb').forEach(function(t){t.classList.toggle('on',t.dataset.p===p)});
   document.getElementById('navi').textContent=TITLES[p];
   document.querySelector('.body').scrollTop=0;
-  if(p==='draw'&&!spread) drawSpread();
+  if(p==='collection') renderGrid();
+  if(p==='draw'&&!spread) showDrawMail();
+}
+function showDrawMail(){
+  document.getElementById('drawMail').style.display='flex';
+  document.getElementById('drawResult').style.display='none';
 }
 
-renderTabs();renderGrid();drawSpread();renderDaily();
+renderTabs();renderGrid();renderDaily();
 document.getElementById('ver').textContent='v3 · '+BUILD_AT;
 document.getElementById('ba').textContent=BUILD_AT;
 </script>

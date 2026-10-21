@@ -2,6 +2,7 @@
   "pages": [
     "pages/gallery/gallery",
     "pages/draw/draw",
+    "pages/collection/collection",
     "pages/about/about"
   ],
   "window": {

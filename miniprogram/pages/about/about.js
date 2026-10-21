@@ -2,6 +2,10 @@ const COLLECT = require('../../utils/collect.js');
 const MAIL = 'feedback@example.com';
 
 Page({
+  goBack: function () {
+    wx.navigateBack();
+  },
+
   copyMail: function () {
     wx.setClipboardData({
       data: MAIL,

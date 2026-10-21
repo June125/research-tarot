@@ -1,0 +1,69 @@
+<view class="page">
+
+  <view class="backbar" bindtap="goBack">← 返回</view>
+
+  <view class="cl-head">
+    <view class="t">我的收藏</view>
+    <view class="s">已读 {{collected}} / 78 张 · 翻过的卡都会记在这里</view>
+  </view>
+
+  <scroll-view class="tabs" scroll-x>
+    <view class="tab {{curGroup === item.key ? 'on' : ''}}" wx:for="{{groups}}" wx:key="key"
+          data-k="{{item.key}}" bindtap="switchGroup">{{item.label}}</view>
+  </scroll-view>
+
+  <view class="grid">
+    <view class="mini {{item.owned ? '' : 'dim'}}" wx:for="{{list}}" wx:key="id" data-i="{{index}}" bindtap="openSheet">
+      <image class="thumb" src="{{imgBase}}{{item.img}}" mode="aspectFill" lazy-load></image>
+      <view class="n">{{item.name}}</view>
+      <view class="a">{{item.sub}}</view>
+      <view class="own" wx:if="{{item.owned}}">已读</view>
+    </view>
+  </view>
+
+  <view class="hint">内容为通用科研经验整理<br/>不构成针对个人的判断</view>
+
+  <view class="mask" wx:if="{{cur}}" bindtap="closeSheet">
+    <view class="sheet" catchtap="noop">
+      <view class="sh-head">
+        <view class="t">{{cur.roman}} · {{cur.name}}</view>
+        <view class="c" bindtap="closeSheet">✕</view>
+      </view>
+
+      <view class="sh-hero">
+        <image src="{{imgBase}}{{cur.img}}" mode="aspectFit"></image>
+        <view class="meta">
+          <view class="e">{{cur.emoji}}</view>
+          <view class="n">{{cur.en}}</view>
+          <view class="sc" wx:if="{{cur.scene}}">{{cur.scene}}</view>
+          <view class="k">{{cur.kw}}</view>
+          <view class="en">{{cur.arcana === 'major' ? '主牌 · 22 张' : cur.element}}</view>
+        </view>
+      </view>
+
+      <view class="sh-line quote" wx:if="{{cur.quote}}">
+        <view class="v">{{cur.quote}}</view>
+      </view>
+      <view class="sh-line">
+        <view class="k">这 条 建 议</view>
+        <view class="v up">{{cur.upright}}</view>
+      </view>
+      <view class="sh-line">
+        <view class="k">换 个 角 度 看</view>
+        <view class="v down">{{cur.revText}}</view>
+      </view>
+      <view class="sh-line rs">
+        <view class="k">科 研 场 景</view>
+        <view class="v">{{cur.research}}</view>
+      </view>
+      <view class="sh-line">
+        <view class="k">行 动 建 议</view>
+        <view class="v">{{cur.advice}}</view>
+      </view>
+
+      <view class="sh-foot">
+        <view class="sh-btn" bindtap="goBack">返 回</view>
+      </view>
+    </view>
+  </view>
+</view>

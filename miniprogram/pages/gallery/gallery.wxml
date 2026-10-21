@@ -24,25 +24,15 @@
       <text class="ico">🧭</text>
       <text>我该怎么做</text>
     </view>
+  </view>
+  <view class="gh-actions">
+    <view class="gh-btn ghost" bindtap="goCollect">
+      <text class="ico">🗂</text>
+      <text>我的收藏 {{collected}}/78</text>
+    </view>
     <view class="gh-btn ghost" bindtap="goAbout">
       <text class="ico">📄</text>
       <text>关于</text>
-    </view>
-  </view>
-
-  <scroll-view class="tabs" scroll-x>
-    <view class="tab {{curGroup === item.key ? 'on' : ''}}" wx:for="{{groups}}" wx:key="key"
-          data-k="{{item.key}}" bindtap="switchGroup">{{item.label}}</view>
-  </scroll-view>
-
-  <view class="collect-bar">已读 {{collected}} / 78 张　·　翻过的卡会标成已读</view>
-
-  <view class="grid">
-    <view class="mini {{item.owned ? '' : 'dim'}}" wx:for="{{list}}" wx:key="id" data-i="{{index}}" bindtap="openSheet">
-      <image class="thumb" src="{{imgBase}}{{item.img}}" mode="aspectFill" lazy-load></image>
-      <view class="n">{{item.name}}</view>
-      <view class="a">{{item.sub}}</view>
-      <view class="own" wx:if="{{item.owned}}">已读</view>
     </view>
   </view>
 
@@ -51,6 +41,7 @@
   <!-- 查收 Result：投稿结果信封彩蛋，拆开是一张通用建议卡 -->
   <view class="mask" wx:if="{{mail}}" bindtap="closeMail">
     <view class="mailcard" catchtap="noop">
+      <view class="m-close" bindtap="closeMail">✕</view>
       <view class="m-stamp">📮</view>
       <view class="m-t">Submission Status · Editorial Office</view>
       <view class="m-line">Dear Researcher,</view>
@@ -101,7 +92,7 @@
       </view>
 
       <view class="sh-foot">
-        <view class="sh-btn" bindtap="checkResult">再收一封 Result</view>
+        <view class="sh-btn" bindtap="closeSheet">关 闭</view>
       </view>
     </view>
   </view>
