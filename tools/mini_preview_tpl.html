@@ -114,12 +114,12 @@
   .sp-head .t{font-size:19px;font-weight:700;letter-spacing:3px;color:#fff3dd}
   .sp-head .s{font-size:11px;color:var(--dim);margin-top:5px;letter-spacing:1px}
   .sp-row{display:flex;gap:9px;margin-top:16px}
-  .sp{flex:1;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:8px 5px;text-align:center}
-  .sp img{width:100%;height:112px;object-fit:cover;border-radius:7px;display:block}
+  .sp{flex:1;display:flex;flex-direction:column;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:8px 5px;text-align:center}
+  .sp .pic{width:100%;aspect-ratio:100/160;background:#15122e;border-radius:7px;overflow:hidden}
+  .sp .pic img{width:100%;height:100%;object-fit:contain;display:block}
   .sp img.rv{transform:rotate(180deg)}
   .sp .slot{font-size:11px;color:var(--gold);margin-top:7px;letter-spacing:1px}
   .sp .nm{font-size:12px;color:#fff3dd;margin-top:2px}
-  .sp .ori{font-size:9px;color:var(--dim);margin-top:2px}
   .sp-detail{margin-top:14px}
   .sd{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:12px 13px;margin-bottom:10px}
   .sd .h{font-size:12px;color:var(--gold);letter-spacing:1px;margin-bottom:6px}
@@ -142,7 +142,6 @@
   .about .sec .p{font-size:12px;line-height:1.85;color:#cbc5d8;margin-bottom:8px}
   .about .sec .p .em{color:var(--gold)}
   .about .foot{margin-top:26px;text-align:center;font-size:11px;color:var(--dim);letter-spacing:1px}
-  .ver{position:absolute;left:0;right:0;bottom:80px;text-align:center;font-size:10px;color:#4a4470;z-index:5}
   .hint{color:#5f598a;font-size:11px;margin-top:14px;text-align:center}
 </style>
 </head>
@@ -270,8 +269,6 @@
     <div class="sheet" id="sheet"></div>
   </div>
 
-  <div class="ver" id="ver"></div>
-
   <div class="tabbar">
     <div class="tb on" data-p="gallery" onclick="go('gallery')"><span class="ico">🗂</span>卡片库</div>
     <div class="tb" data-p="draw" onclick="go('draw')"><span class="ico">🧭</span>我该怎么做</div>
@@ -382,7 +379,7 @@ function renderSpread(){
   var rh='',dh='';
   spread.forEach(function(o,i){
     var c=o.c;
-    rh+='<div class="sp"><img class="'+(o.reversed?'rv':'')+'" src="'+img(c.img)+'">'
+    rh+='<div class="sp"><div class="pic"><img class="'+(o.reversed?'rv':'')+'" src="'+img(c.img)+'"></div>'
       +'<div class="slot">'+SLOT_MINI[i]+'</div>'
       +'<div class="nm">'+c.name+'</div></div>';
     var txt=o.reversed?c.revText:c.upright;
@@ -415,7 +412,6 @@ function showDrawMail(){
 }
 
 renderTabs();renderGrid();renderDaily();
-document.getElementById('ver').textContent='v3 · '+BUILD_AT;
 document.getElementById('ba').textContent=BUILD_AT;
 </script>
 </body>
