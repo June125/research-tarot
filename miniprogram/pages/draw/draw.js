@@ -102,7 +102,8 @@ Page({
         reversed: c.reversed,
         text: c.reversed ? c.revText : c.upright,
         research: c.research,
-        advice: c.advice
+        advice: c.advice,
+        quote: c.quote
       };
     });
     this.setData({ detail: detail, summary: U.summaryOf(this.data.cards), showDetail: true });

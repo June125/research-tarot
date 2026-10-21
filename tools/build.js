@@ -13,7 +13,15 @@ const MD = path.join(ROOT, '文案/牌义文案.md');
 const OUT_JS = path.join(ROOT, 'miniprogram/utils/cards.js');
 const OUT_HTML = path.join(ROOT, 'preview/src.html');
 
-const FIELD_MAP = { '场景': 'scene', '关键词': 'kw', '正位': 'upright', '逆位': 'reversed', '科研': 'research', '建议': 'advice' };
+const FIELD_MAP = {
+  '场景': 'scene',
+  '关键词': 'kw',
+  '正位': 'upright',
+  '逆位': 'reversed',
+  '科研': 'research',
+  '建议': 'advice',
+  '金句': 'quote'          // 牌面下方那句点题的话，独立字段，会被拼进 advice 之前单独解析
+};
 
 const SUIT_META = {
   wands: { cn: '权杖', en: 'Wands', emoji: '🪄', element: '火 · 行动与事业' },
@@ -42,7 +50,7 @@ src.split(/\r?\n/).forEach(function (raw) {
     if (parts.length < 5) {
       throw new Error('标题格式不对（需要 分组 | 序号 | 牌名 | 英文名 | 图标）：\n  ' + line);
     }
-    cur = { group: parts[0], roman: parts[1], name: parts[2], en: parts[3], emoji: parts[4], scene: '', kw: '', upright: '', reversed: '', research: '', advice: '' };
+    cur = { group: parts[0], roman: parts[1], name: parts[2], en: parts[3], emoji: parts[4], scene: '', kw: '', upright: '', reversed: '', research: '', advice: '', quote: '' };
     cards.push(cur);
     lastField = null;
     return;
@@ -116,7 +124,7 @@ if (errs.length) {
  * 注意：逆位「文案」输出为 revText，reversed 这个 key 留给运行时表示正/逆位方向（布尔），
  * 否则 Object.assign 抽牌时会把文案覆盖成 true。
  */
-const order = ['id', 'arcana', 'suit', 'suitName', 'element', 'name', 'scene', 'en', 'roman', 'num', 'emoji', 'img', 'kw', 'upright', 'revText', 'research', 'advice'];
+const order = ['id', 'arcana', 'suit', 'suitName', 'element', 'name', 'scene', 'en', 'roman', 'num', 'emoji', 'img', 'kw', 'upright', 'revText', 'research', 'advice', 'quote'];
 
 function jstr(s) {
   return JSON.stringify(String(s));

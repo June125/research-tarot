@@ -39,6 +39,9 @@
       </view>
     </view>
 
+    <view class="readout quote" wx:if="{{card.quote}}">
+      <view class="txt">{{card.quote}}</view>
+    </view>
     <view class="readout">
       <view class="lb">解 读 · {{card.reversed ? '逆位' : '正位'}}（事业学业）</view>
       <view class="txt">{{card.reversed ? card.revText : card.upright}}</view>
@@ -100,6 +103,7 @@
           <view class="sd-sc" wx:if="{{item.scene}}">{{item.scene}}</view>
           <view class="sd-tag {{item.reversed ? 'down' : 'up'}}">{{item.reversed ? '逆位' : '正位'}}</view>
         </view>
+        <view class="sd-qt" wx:if="{{item.quote}}">{{item.quote}}</view>
         <view class="sd-p">{{item.text}}</view>
         <view class="sd-rs">🔬 {{item.research}}</view>
         <view class="sd-ad">→ {{item.advice}}</view>

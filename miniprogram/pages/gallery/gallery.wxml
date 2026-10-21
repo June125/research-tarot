@@ -30,6 +30,9 @@
         </view>
       </view>
 
+      <view class="sh-line quote" wx:if="{{cur.quote}}">
+        <view class="v">{{cur.quote}}</view>
+      </view>
       <view class="sh-line">
         <view class="k">正 位 · 事业学业</view>
         <view class="v up">{{cur.upright}}</view>
