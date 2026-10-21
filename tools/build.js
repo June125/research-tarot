@@ -177,7 +177,7 @@ function cardsOf(key) {
 function drawMajor() {
   var pool = CARDS.filter(function (c) { return c.arcana === 'major'; });
   var c = pool[Math.floor(Math.random() * pool.length)];
-  return Object.assign({}, c, { reversed: Math.random() < 0.32 });
+  return Object.assign({}, c, { reversed: Math.random() < 0.30 });
 }
 
 /* 兼容旧调用：等同于 drawMajor（小程序端已不再使用） */
@@ -188,7 +188,7 @@ function drawMany(n) {
   var pool = CARDS.slice(), out = [];
   for (var i = 0; i < n && pool.length; i++) {
     var k = Math.floor(Math.random() * pool.length);
-    out.push(Object.assign({}, pool.splice(k, 1)[0], { reversed: Math.random() < 0.32 }));
+    out.push(Object.assign({}, pool.splice(k, 1)[0], { reversed: Math.random() < 0.30 }));
   }
   return out;
 }

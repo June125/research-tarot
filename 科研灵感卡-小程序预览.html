@@ -114,12 +114,9 @@
   .sp-head .t{font-size:19px;font-weight:700;letter-spacing:3px;color:#fff3dd}
   .sp-head .s{font-size:11px;color:var(--dim);margin-top:5px;letter-spacing:1px}
   .sp-row{display:flex;gap:9px;margin-top:16px}
-  .sp{flex:1;position:relative;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:8px 5px;text-align:center}
-  .sp.rv{border-color:#f08a8a;box-shadow:0 0 0 1px rgba(240,138,138,.4)}
+  .sp{flex:1;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:8px 5px;text-align:center}
   .sp img{width:100%;height:112px;object-fit:cover;border-radius:7px;display:block}
   .sp img.rv{transform:rotate(180deg)}
-  .rb{position:absolute;top:5px;left:5px;z-index:4;font-size:10px;line-height:1;padding:3px 7px;border-radius:20px;
-    color:#fff;background:linear-gradient(135deg,#f08a8a,#e06868);box-shadow:0 2px 6px rgba(224,104,104,.45);white-space:nowrap}
   .sp .slot{font-size:11px;color:var(--gold);margin-top:7px;letter-spacing:1px}
   .sp .nm{font-size:12px;color:#fff3dd;margin-top:2px}
   .sp .ori{font-size:9px;color:var(--dim);margin-top:2px}
@@ -291,7 +288,7 @@ var CARDS = [{"id":0,"arcana":"major","suit":null,"suitName":"主牌","element":
 var SUIT_ORDER = [{"key":"major","label":"主牌","en":"Main · 22 张"},{"key":"wands","label":"权杖","en":"Wands · 火"},{"key":"cups","label":"圣杯","en":"Cups · 水"},{"key":"swords","label":"宝剑","en":"Swords · 风"},{"key":"pent","label":"星币","en":"Pentacles · 土"}];
 var SLOT_MINI = ["卡在哪","怎么破","怎么收"];
 var SPREAD_TIP = {"UUU":"三条都能直接照做。先按「卡在哪」确认问题，把「怎么破」今天落地一半，收尾用「怎么收」兜底。","RUU":"起步别纠结，「卡在哪」那条先换个角度看，把力气花在「怎么破」上，「怎么收」照做即可。","UUR":"前两条照常推进，最后一步留个备选——「怎么收」那格给了另一个角度，提前想好 Plan B。","URU":"卡点清楚，「怎么破」那格需要换个角度看。先照「卡在哪」确认范围，再从新角度试一次破法。","RUR":"两头的信息有点绕，中间「怎么破」是唯一主线。只做这一件事，前后两条留到明天再对。","RRU":"前两格都提示换角度，只有「怎么收」是明确可执行的。先把收尾做好，再回头处理前两条。","URR":"起点是清楚的，破法和收尾都要换角度。今天就做一件事：照「卡在哪」把问题写下来，破法明天再定。","RRR":"三条都建议换个角度看，说明旧思路该整体翻新了。今天先把三条抄下来对照着看，明天再动手。"};
-var BUILD_AT = '2026-10-21 20:13';
+var BUILD_AT = '2026-10-21 20:32';
 
 var KEY='rt_read_v3';
 function reads(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){return[]}}
@@ -376,7 +373,7 @@ var spread=null;
 function drawSpread(){
   var pool=CARDS.slice();
   for(var i=pool.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=pool[i];pool[i]=pool[j];pool[j]=t}
-  spread=pool.slice(0,3).map(function(c){return {c:c,reversed:Math.random()<0.32}});
+  spread=pool.slice(0,3).map(function(c){return {c:c,reversed:Math.random()<0.30}});
   renderSpread();
   document.getElementById('drawMail').style.display='none';
   document.getElementById('drawResult').style.display='block';
@@ -385,13 +382,11 @@ function renderSpread(){
   var rh='',dh='';
   spread.forEach(function(o,i){
     var c=o.c;
-    rh+='<div class="sp'+(o.reversed?' rv':'')+'"><img class="'+(o.reversed?'rv':'')+'" src="'+img(c.img)+'">'
-      +(o.reversed?'<div class="rb">🔄 换个角度</div>':'')
+    rh+='<div class="sp"><img class="'+(o.reversed?'rv':'')+'" src="'+img(c.img)+'">'
       +'<div class="slot">'+SLOT_MINI[i]+'</div>'
-      +'<div class="nm">'+c.name+'</div>'
-      +'<div class="ori">'+(o.reversed?'换个角度看':'这条建议')+'</div></div>';
+      +'<div class="nm">'+c.name+'</div></div>';
     var txt=o.reversed?c.revText:c.upright;
-    dh+='<div class="sd"><div class="h">'+SLOT_MINI[i]+' · '+c.name+'<span>'+(o.reversed?'换个角度看':'这条建议')+'</span></div>'
+    dh+='<div class="sd"><div class="h">'+SLOT_MINI[i]+' · '+c.name+'</div>'
       +'<div class="p">'+esc(txt)+'</div>'
       +(c.research?'<div class="p" style="color:#a9e3c4">'+esc(c.research)+'</div>':'')
       +(c.quote?'<div class="q">'+esc(c.quote)+'</div>':'')+'</div>';

@@ -114,12 +114,9 @@
   .sp-head .t{font-size:19px;font-weight:700;letter-spacing:3px;color:#fff3dd}
   .sp-head .s{font-size:11px;color:var(--dim);margin-top:5px;letter-spacing:1px}
   .sp-row{display:flex;gap:9px;margin-top:16px}
-  .sp{flex:1;position:relative;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:8px 5px;text-align:center}
-  .sp.rv{border-color:#f08a8a;box-shadow:0 0 0 1px rgba(240,138,138,.4)}
+  .sp{flex:1;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:8px 5px;text-align:center}
   .sp img{width:100%;height:112px;object-fit:cover;border-radius:7px;display:block}
   .sp img.rv{transform:rotate(180deg)}
-  .rb{position:absolute;top:5px;left:5px;z-index:4;font-size:10px;line-height:1;padding:3px 7px;border-radius:20px;
-    color:#fff;background:linear-gradient(135deg,#f08a8a,#e06868);box-shadow:0 2px 6px rgba(224,104,104,.45);white-space:nowrap}
   .sp .slot{font-size:11px;color:var(--gold);margin-top:7px;letter-spacing:1px}
   .sp .nm{font-size:12px;color:#fff3dd;margin-top:2px}
   .sp .ori{font-size:9px;color:var(--dim);margin-top:2px}
@@ -376,7 +373,7 @@ var spread=null;
 function drawSpread(){
   var pool=CARDS.slice();
   for(var i=pool.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=pool[i];pool[i]=pool[j];pool[j]=t}
-  spread=pool.slice(0,3).map(function(c){return {c:c,reversed:Math.random()<0.32}});
+  spread=pool.slice(0,3).map(function(c){return {c:c,reversed:Math.random()<0.30}});
   renderSpread();
   document.getElementById('drawMail').style.display='none';
   document.getElementById('drawResult').style.display='block';
@@ -385,13 +382,11 @@ function renderSpread(){
   var rh='',dh='';
   spread.forEach(function(o,i){
     var c=o.c;
-    rh+='<div class="sp'+(o.reversed?' rv':'')+'"><img class="'+(o.reversed?'rv':'')+'" src="'+img(c.img)+'">'
-      +(o.reversed?'<div class="rb">🔄 换个角度</div>':'')
+    rh+='<div class="sp"><img class="'+(o.reversed?'rv':'')+'" src="'+img(c.img)+'">'
       +'<div class="slot">'+SLOT_MINI[i]+'</div>'
-      +'<div class="nm">'+c.name+'</div>'
-      +'<div class="ori">'+(o.reversed?'换个角度看':'这条建议')+'</div></div>';
+      +'<div class="nm">'+c.name+'</div></div>';
     var txt=o.reversed?c.revText:c.upright;
-    dh+='<div class="sd"><div class="h">'+SLOT_MINI[i]+' · '+c.name+'<span>'+(o.reversed?'换个角度看':'这条建议')+'</span></div>'
+    dh+='<div class="sd"><div class="h">'+SLOT_MINI[i]+' · '+c.name+'</div>'
       +'<div class="p">'+esc(txt)+'</div>'
       +(c.research?'<div class="p" style="color:#a9e3c4">'+esc(c.research)+'</div>':'')
       +(c.quote?'<div class="q">'+esc(c.quote)+'</div>':'')+'</div>';

@@ -41,7 +41,6 @@
                   <view class="art-wrap">
                     <image class="art {{item.reversed ? 'rv' : ''}}" src="{{imgBase}}{{item.img}}" mode="aspectFit"></image>
                   </view>
-                  <view class="rv-badge" wx:if="{{item.reversed}}">🔄 换个角度</view>
                 </view>
               </view>
             </view>
@@ -53,7 +52,6 @@
               <text class="mine-nm">{{item.name}}</text>
               <text class="mine-sc" wx:if="{{item.scene}}">{{item.scene}}</text>
             </view>
-            <view class="pos {{item.reversed ? 'down' : 'up'}}">{{item.reversed ? '角度' : '建议'}}</view>
           </view>
         </view>
       </view>
@@ -62,10 +60,9 @@
     <view class="spread-detail" wx:if="{{showDetail}}">
       <view class="sd-item" wx:for="{{detail}}" wx:key="slot">
         <view class="sd-h">
-          <view class="nm">{{item.slot}} · {{item.title}}</view>
-          <view class="sd-sc" wx:if="{{item.scene}}">{{item.scene}}</view>
-          <view class="sd-tag {{item.reversed ? 'down' : 'up'}}">{{item.reversed ? '换个角度看' : '这条建议'}}</view>
-        </view>
+              <view class="nm">{{item.slot}} · {{item.title}}</view>
+              <view class="sd-sc" wx:if="{{item.scene}}">{{item.scene}}</view>
+            </view>
         <view class="sd-qt" wx:if="{{item.quote}}">{{item.quote}}</view>
         <view class="sd-p">{{item.text}}</view>
         <view class="sd-rs">🔬 {{item.research}}</view>
