@@ -1621,14 +1621,18 @@ var SPREAD_LV = {
   URR: { level: '小凶', tone: 'bad', text: '下坠走势：过去顺利、现在翻转、未来仍是逆位。先复盘现在这个转折点，把损失止损在这一步，别硬推。' },
   RRR: { level: '小凶', tone: 'bad', text: '三张全逆位，过去、现在、未来同时受阻——已经到底了，该暴露的问题都出齐了。今天适合复盘和休整，把三张的提醒各写成一条行动项。' }
 };
-/* 唯一的「凶」：45 万种排列里只有这一组牌 —— 过载 → 崩塌 → 彻底黄 */
+/* 唯一的「凶」：这一组牌 + 三张全逆位 —— 过载 → 崩塌 → 彻底黄
+   456,456 种排列 × 8 种正逆 = 3,651,648 种结果里，只有这一种判凶；
+   只要有一张是正位，就回到下面的正逆顺序系统正常判定 */
 var DOOM = ['权杖十', '高塔', '宝剑十'];
 var DOOM_LV = { level: '凶', tone: 'bad', doom: true,
-  text: '过去一个人扛下所有，现在突然崩塌，未来彻底触底——这是 78×77×76 = 456,456 种排列里唯一被判为凶的组合。抽到它也算一种运气：坏到底了，接下来每一步都是往上。今天只做一件事：把这三张的提醒各写一句，然后去睡一觉。' };
+  text: '过去一个人扛下所有，现在突然崩塌，未来彻底触底——而且三张全是逆位。这是 456,456 种排列 × 8 种正逆组合 = 3,651,648 种结果里，唯一被判为凶的一种。抽到它也算一种运气：坏到底了，接下来每一步都是往上。今天只做一件事：把这三张的提醒各写一句，然后去睡一觉。' };
 function summaryOf(cards) {
   if (cards.length === 3) {
     var isDoom = true;
-    for (var i = 0; i < 3; i++) { if (cards[i].name !== DOOM[i]) { isDoom = false; break; } }
+    for (var i = 0; i < 3; i++) {
+      if (cards[i].name !== DOOM[i] || !cards[i].reversed) { isDoom = false; break; }
+    }
     if (isDoom) return DOOM_LV;
   }
   var key = cards.map(function (c) { return c.reversed ? 'R' : 'U'; }).join('');

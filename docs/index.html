@@ -366,7 +366,7 @@ const CARDS = [{"id":0,"roman":"0","name":"愚者","en":"The Fool","emoji":"🎲
 const IMG_BASE = './assets/cards/';
 /* 内嵌牌图。单机版由 tools/build_standalone.js 填充 IMG_DATA；本地开发留空则走相对路径 */
 const IMG_DATA = {};
-const BUILD_AT = '2026-10-21 15:59';   /* 单机版由 build_standalone.js 填入构建时间，用来确认你看到的是不是最新文件 */
+const BUILD_AT = '2026-10-21 16:06';   /* 单机版由 build_standalone.js 填入构建时间，用来确认你看到的是不是最新文件 */
 function imgSrc(f){ return IMG_DATA[f] || IMG_BASE + f; }
 const SLOT = ['过去', '现在', '未来'];
 const STORE_KEY = 'research_tarot_today';
@@ -403,13 +403,15 @@ const SPREAD_LV = {
   URR: { level:'小凶', tone:'bad',  text:'下坠走势：过去顺利、现在翻转、未来仍是逆位。先复盘现在这个转折点，把损失止损在这一步，别硬推。' },
   RRR: { level:'小凶', tone:'bad',  text:'三张全逆位，过去、现在、未来同时受阻——已经到底了，该暴露的问题都出齐了。今天适合复盘和休整，把三张的提醒各写成一条行动项。' }
 };
-/* 唯一的「凶」：45 万种排列里只有这一组牌 —— 过载 → 崩塌 → 彻底黄 */
+/* 唯一的「凶」：这一组牌 + 三张全逆位 —— 过载 → 崩塌 → 彻底黄
+   456,456 种排列 × 8 种正逆 = 3,651,648 种结果里，只有这一种判凶；
+   只要有一张是正位，就回到下面的正逆顺序系统正常判定 */
 const DOOM = ['权杖十', '高塔', '宝剑十'];
 const DOOM_LV = { level:'凶', tone:'bad', doom:true,
-  text:'过去一个人扛下所有，现在突然崩塌，未来彻底触底——这是 78×77×76 = 456,456 种排列里唯一被判为凶的组合。抽到它也算一种运气：坏到底了，接下来每一步都是往上。今天只做一件事：把这三张的提醒各写一句，然后去睡一觉。' };
+  text:'过去一个人扛下所有，现在突然崩塌，未来彻底触底——而且三张全是逆位。这是 456,456 种排列 × 8 种正逆组合 = 3,651,648 种结果里，唯一被判为凶的一种。抽到它也算一种运气：坏到底了，接下来每一步都是往上。今天只做一件事：把这三张的提醒各写一句，然后去睡一觉。' };
 function summaryOf(cs){
   const t = cs.length;
-  if (t === 3 && cs.every((c, i) => c.name === DOOM[i])) return DOOM_LV;
+  if (t === 3 && cs.every(c => c.reversed) && cs.every((c, i) => c.name === DOOM[i])) return DOOM_LV;
   const key = cs.map(c => c.reversed ? 'R' : 'U').join('');
   if (SPREAD_LV[key]) return SPREAD_LV[key];
   /* 非三张时按正位占比兜底 */
@@ -598,7 +600,7 @@ function renderSpreadDetail(){
   const sum = document.getElementById('sp-sum');
   sum.style.display = 'block';
   sum.innerHTML = '<div class="lv ' + (s.tone || 'good') + '">' + s.level
-    + (s.doom ? '<span class="doom-tag">45 万分之一</span>' : '') + '</div><p>' + s.text + '</p>';
+    + (s.doom ? '<span class="doom-tag">365 万分之一</span>' : '') + '</div><p>' + s.text + '</p>';
 }
 
 /* ============ 图鉴 ============ */
