@@ -366,7 +366,7 @@ const CARDS = [{"id":0,"roman":"0","name":"愚者","en":"The Fool","emoji":"🎲
 const IMG_BASE = './assets/cards/';
 /* 内嵌牌图。单机版由 tools/build_standalone.js 填充 IMG_DATA；本地开发留空则走相对路径 */
 const IMG_DATA = {};
-const BUILD_AT = '2026-10-21 16:12';   /* 单机版由 build_standalone.js 填入构建时间，用来确认你看到的是不是最新文件 */
+const BUILD_AT = '2026-10-21 16:15';   /* 单机版由 build_standalone.js 填入构建时间，用来确认你看到的是不是最新文件 */
 function imgSrc(f){ return IMG_DATA[f] || IMG_BASE + f; }
 const SLOT = ['过去', '现在', '未来'];
 const STORE_KEY = 'research_tarot_today';
@@ -398,8 +398,8 @@ const SPREAD_LV = {
   RUU: { level:'吉',   tone:'good', text:'过去那点磕绊已经翻篇，现在与未来都在正位。低谷过去了，趁这段顺势把落下的进度补回来。' },
   UUR: { level:'吉',   tone:'good', text:'过去和现在都顺，只有未来位是逆的。给未来那张指出的环节留一手预案，顺势能保住。' },
   URU: { level:'吉',   tone:'good', text:'现在位是唯一卡点，过去有底子、未来仍向好。集中处理现在这张的提醒就够了，不必全线调整。' },
-  RUR: { level:'吉',   tone:'mid',  text:'过去有欠账、未来还有坎，只有现在是有力的。把现在的力气用在还账上，别同时开新战线。' },
-  RRU: { level:'吉',   tone:'mid',  text:'过去和现在都不太顺，但未来位是正的——触底回升的格局。先处理现在这张的提醒，好消息在后面。' },
+  RUR: { level:'小吉', tone:'good', text:'过去有欠账、未来还有坎，只有现在是有力的。把现在的力气用在还账上，别同时开新战线——抓住现在这一张，局面还能拉回来。' },
+  RRU: { level:'吉',   tone:'good', text:'过去和现在都不太顺，但未来位是正的——触底回升的格局。先处理现在这张的提醒，好消息在后面。' },
   URR: { level:'小吉', tone:'good', text:'过去顺利、现在翻转、未来仍是逆位——下坠走势，但底子是好的。先复盘现在这个转折点，把损失止损在这一步，后面仍在你手上。' },
   RRR: { level:'小凶', tone:'bad',  text:'三张全逆位，过去、现在、未来同时受阻——已经到底了，该暴露的问题都出齐了。今天适合复盘和休整，把三张的提醒各写成一条行动项。' }
 };
