@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>科研灵感卡 · 小程序界面预览</title>
+<style>
+  :root{
+    --bg:#0d0b20; --panel:#171432; --card:#231f45; --line:#3a3468;
+    --gold:#e8c877; --txt:#e8e4f5; --sub:#9d96bd; --dim:#7d76a0;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{margin:0;background:#08071a;color:var(--txt);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",sans-serif;
+    display:flex;flex-direction:column;align-items:center;padding:22px 12px 60px;min-height:100vh}
+  .tip{color:#8b84ad;font-size:13px;line-height:1.9;text-align:center;max-width:640px;margin-bottom:18px}
+  .tip b{color:var(--gold)}
+  .phone{width:390px;height:780px;background:var(--bg);border-radius:38px;
+    border:9px solid #26234a;box-shadow:0 30px 70px rgba(0,0,0,.6);position:relative;overflow:hidden}
+  .navi{height:88px;background:var(--panel);display:flex;align-items:flex-end;justify-content:center;
+    padding-bottom:12px;font-size:17px;font-weight:600;letter-spacing:1px;flex:0 0 auto}
+  .body{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
+  .body::-webkit-scrollbar{width:0}
+  .page{padding:0 26rpx 40px;padding-left:16px;padding-right:16px}
+  .tabbar{height:74px;background:var(--panel);border-top:1px solid var(--line);
+    display:flex;align-items:flex-start;padding-top:10px;flex:0 0 auto}
+  .tb{flex:1;text-align:center;font-size:11px;color:var(--dim);cursor:pointer;user-select:none}
+  .tb .ico{font-size:20px;display:block;margin-bottom:3px;filter:grayscale(1);opacity:.6}
+  .tb.on{color:var(--gold)}
+  .tb.on .ico{filter:none;opacity:1}
+
+  /* 卡片库 */
+  .gh-head{padding:26px 0 12px;text-align:center}
+  .gh-head .brand{font-size:26px;font-weight:700;letter-spacing:3px;color:var(--gold)}
+  .gh-head .brand-sub{font-size:12px;color:var(--sub);letter-spacing:1px;margin-top:5px}
+  .gh-actions{display:flex;padding:8px 0 20px}
+  .gh-btn{flex:1;display:flex;flex-direction:column;align-items:center;padding:11px 0;
+    border-radius:11px;background:var(--card);border:1px solid var(--line);font-size:12px;cursor:pointer}
+  .gh-btn+.gh-btn{margin-left:10px}
+  .gh-btn.ghost{background:transparent;color:#b9b3d0}
+  .gh-btn .ico{font-size:18px;margin-bottom:4px}
+  .collect-bar{font-size:12px;color:var(--sub);text-align:center;padding:0 0 16px}
+  .tabs{display:flex;gap:7px;overflow-x:auto;padding-bottom:12px}
+  .tabs::-webkit-scrollbar{height:0}
+  .tab{padding:6px 13px;border-radius:20px;background:var(--card);border:1px solid var(--line);
+    font-size:12px;color:var(--sub);white-space:nowrap;cursor:pointer}
+  .tab.on{background:var(--gold);border-color:var(--gold);color:#15122e;font-weight:700}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}
+  .mini{position:relative;background:var(--card);border-radius:11px;overflow:hidden;cursor:pointer;
+    border:1px solid var(--line)}
+  .mini img{width:100%;height:118px;object-fit:cover;display:block}
+  .mini .n{font-size:12px;text-align:center;padding:6px 2px;color:#fff3dd}
+  .mini .a{font-size:10px;text-align:center;color:var(--dim);padding-bottom:7px;margin-top:-3px}
+  .mini.dim{opacity:.42}
+  .mini.dim img{filter:grayscale(1)}
+  .mini .own{position:absolute;right:5px;top:5px;font-size:9px;color:#15122e;background:var(--gold);
+    border-radius:9px;padding:2px 6px}
+
+  /* 弹层 */
+  .mask{position:absolute;inset:0;background:rgba(8,7,26,.72);z-index:20;
+    display:flex;align-items:flex-end;opacity:0;pointer-events:none;transition:opacity .2s}
+  .mask.on{opacity:1;pointer-events:auto}
+  .sheet{width:100%;max-height:74%;background:var(--panel);border-radius:20px 20px 0 0;
+    padding:20px 18px 26px;overflow-y:auto;border-top:1px solid var(--line)}
+  .sheet::-webkit-scrollbar{width:0}
+  .sheet .big{width:118px;border-radius:9px;display:block;margin:0 auto 12px;border:1px solid var(--line)}
+  .sheet .nm{font-size:19px;font-weight:700;text-align:center;color:#fff3dd;letter-spacing:1px}
+  .sheet .en{font-size:11px;color:var(--dim);text-align:center;margin-top:3px;letter-spacing:1px}
+  .sh-line{margin-top:14px}
+  .sh-line .k{font-size:11px;color:var(--gold);letter-spacing:2px;margin-bottom:5px}
+  .sh-line .v{font-size:13px;line-height:1.75;color:#cbc5d8}
+  .sh-line.rs .v{color:#a9e3c4}
+  .sh-line.quote .v{color:var(--gold);font-style:italic}
+  .sh-foot{padding:16px 0 4px;text-align:center}
+  .sh-btn{display:inline-block;padding:10px 26px;border-radius:22px;background:var(--card);
+    border:1px solid var(--line);font-size:13px;color:var(--gold);cursor:pointer}
+
+  /* 三个角度 */
+  .sp-head{text-align:center;padding:22px 0 6px}
+  .sp-head .t{font-size:19px;font-weight:700;letter-spacing:3px;color:#fff3dd}
+  .sp-head .s{font-size:11px;color:var(--dim);margin-top:5px;letter-spacing:1px}
+  .sp-row{display:flex;gap:9px;margin-top:16px}
+  .sp{flex:1;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:8px 5px;text-align:center}
+  .sp img{width:100%;height:112px;object-fit:cover;border-radius:7px;display:block}
+  .sp .slot{font-size:11px;color:var(--gold);margin-top:7px;letter-spacing:1px}
+  .sp .nm{font-size:12px;color:#fff3dd;margin-top:2px}
+  .sp .ori{font-size:9px;color:var(--dim);margin-top:2px}
+  .sp-detail{margin-top:14px}
+  .sd{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:12px 13px;margin-bottom:10px}
+  .sd .h{font-size:12px;color:var(--gold);letter-spacing:1px;margin-bottom:6px}
+  .sd .h span{color:var(--dim);font-size:10px;margin-left:6px}
+  .sd .p{font-size:12.5px;line-height:1.8;color:#cbc5d8}
+  .sd .q{font-size:12.5px;line-height:1.8;color:var(--gold);font-style:italic;margin-top:8px}
+  .sum{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:14px 15px;margin-top:4px}
+  .sum .lv{font-size:13px;font-weight:700;letter-spacing:3px;color:var(--gold);margin-bottom:7px}
+  .sum p{margin:0;font-size:12.5px;line-height:1.8;color:#cbc5d8}
+  .again{margin-top:16px;text-align:center}
+  .again .btn{display:inline-block;padding:11px 30px;border-radius:22px;background:var(--card);
+    border:1px solid var(--line);font-size:13px;color:var(--gold);cursor:pointer;letter-spacing:1px}
+
+  /* 关于 */
+  .about{padding:22px 14px 40px}
+  .about .hd{font-size:20px;font-weight:700;letter-spacing:2px;color:var(--gold);margin-bottom:20px}
+  .about .sec{margin-bottom:24px}
+  .about .sec .t{font-size:13px;font-weight:700;color:#fff3dd;letter-spacing:1px;margin-bottom:9px;
+    padding-left:8px;border-left:3px solid var(--gold)}
+  .about .sec .p{font-size:12px;line-height:1.85;color:#cbc5d8;margin-bottom:8px}
+  .about .sec .p .em{color:var(--gold)}
+  .about .foot{margin-top:26px;text-align:center;font-size:11px;color:var(--dim);letter-spacing:1px}
+  .ver{position:absolute;left:0;right:0;bottom:80px;text-align:center;font-size:10px;color:#4a4470;z-index:5}
+  .hint{color:#5f598a;font-size:11px;margin-top:14px;text-align:center}
+</style>
+</head>
+<body>
+
+<div class="tip">
+  这是 <b>微信小程序版（v3 卡片库为主版）</b> 的界面预览，用手机壳模拟三个页面的真实交互。<br>
+  牌图、文案、综合提示全部与 <b>miniprogram/</b> 打包内容一致 —— 点底部三个 tab 切换页面，卡片可点开。
+</div>
+
+<div class="phone">
+  <div class="navi" id="navi">科研灵感卡</div>
+  <div class="body">
+    <!-- 卡片库 -->
+    <div class="page" id="p-gallery">
+      <div class="gh-head">
+        <div class="brand">科研灵感卡</div>
+        <div class="brand-sub">78 张科研提示卡 · 开题 组会 投稿 经费 返修</div>
+      </div>
+      <div class="gh-actions">
+        <div class="gh-btn" onclick="randomOne()"><span class="ico">🃏</span>随便看看</div>
+        <div class="gh-btn ghost" onclick="go('about')"><span class="ico">📄</span>关于与反馈</div>
+      </div>
+      <div class="collect-bar" id="cbar">已读 0 / 78</div>
+      <div class="tabs" id="tabs"></div>
+      <div class="grid" id="grid"></div>
+    </div>
+
+    <!-- 三个角度 -->
+    <div class="page" id="p-draw" style="display:none">
+      <div class="sp-head">
+        <div class="t">三 个 角 度</div>
+        <div class="s">灵感 · 方法 · 行动</div>
+      </div>
+      <div class="sp-row" id="spRow"></div>
+      <div class="sp-detail" id="spDetail"></div>
+      <div class="sum"><div class="lv">综合提示</div><p id="spSum"></p></div>
+      <div class="again"><div class="btn" onclick="redraw()">再 换 一 组</div></div>
+    </div>
+
+    <!-- 关于 -->
+    <div class="page" id="p-about" style="display:none">
+      <div class="about">
+        <div class="hd">关于科研灵感卡</div>
+        <div class="sec">
+          <div class="t">这是什么</div>
+          <div class="p">一个面向研究生和科研工作者的科研经验卡片库。共 78 张卡片，按主题分类翻阅，也可以随便看看。内容围绕开题、组会、投稿、经费、导师沟通、论文返修等科研日常场景，每张给出一条可以照做的行动建议。</div>
+        </div>
+        <div class="sec">
+          <div class="t">免责声明</div>
+          <div class="p">1. 本工具所有内容均为<text class="em">通用科研经验整理</text>，不针对任何个人情况，不构成学术、职业或心理方面的专业意见，请勿据此作出退学、转组、撤稿、辞职等重大决定。</div>
+          <div class="p">2. 卡面文案为原创的科研场景化写作，不提供任何针对个人的判断服务。</div>
+          <div class="p">3. 卡牌图案取自 1909 年出版、已进入公有领域的经典卡牌画册，仅作视觉素材使用。</div>
+        </div>
+        <div class="sec">
+          <div class="t">关于你的数据</div>
+          <div class="p">本工具<text class="em">不收集、不上传任何个人信息</text>，也无需注册登录。阅读记录仅保存在你手机本地（微信小程序的本地缓存），清除小程序缓存即会一并清除，我们无法读取。</div>
+        </div>
+        <div class="sec">
+          <div class="t">意见反馈</div>
+          <div class="p">发现 bug、想加卡、想改文案，欢迎反馈：</div>
+          <div class="p">feedback@example.com　（点击复制）</div>
+        </div>
+        <div class="foot">科研灵感卡 · v2.0</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mask" id="mask" onclick="if(event.target===this)closeSheet()">
+    <div class="sheet" id="sheet"></div>
+  </div>
+
+  <div class="ver" id="ver"></div>
+
+  <div class="tabbar">
+    <div class="tb on" data-p="gallery" onclick="go('gallery')"><span class="ico">🗂</span>卡片库</div>
+    <div class="tb" data-p="draw" onclick="go('draw')"><span class="ico">🃏</span>三个角度</div>
+    <div class="tb" data-p="about" onclick="go('about')"><span class="ico">📄</span>关于</div>
+  </div>
+</div>
+
+<div class="hint">构建版本 <span id="ba"></span> · 模拟界面，非小程序真机</div>
+
+<script>
+var IMG_DATA = __IMG_DATA__;
+var CARDS = __CARDS__;
+var SUIT_ORDER = __SUIT_ORDER__;
+var SLOT_MINI = __SLOT_MINI__;
+var SPREAD_TIP = __SPREAD_TIP__;
+var BUILD_AT = '__BUILD_AT__';
+
+var KEY='rt_read_v3';
+function reads(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){return[]}}
+function markRead(id){var r=reads(); if(r.indexOf(id)<0){r.push(id);try{localStorage.setItem(KEY,JSON.stringify(r))}catch(e){}}}
+function img(f){return IMG_DATA[f]||''}
+
+var curGroup='major';
+function renderTabs(){
+  var h='<div class="tab'+(curGroup==='all'?' on':'')+'" onclick="setGroup(\'all\')">全部</div>';
+  SUIT_ORDER.forEach(function(s){
+    h+='<div class="tab'+(curGroup===s.key?' on':'')+'" onclick="setGroup(\''+s.key+'\')">'+s.label+'</div>';
+  });
+  document.getElementById('tabs').innerHTML=h;
+}
+function setGroup(k){curGroup=k;renderTabs();renderGrid()}
+function renderGrid(){
+  var rd=reads();
+  var list = curGroup==='all'?CARDS:CARDS.filter(function(c){return c.suit===curGroup||(curGroup==='major'&&c.arcana==='major')});
+  document.getElementById('cbar').textContent='已读 '+reads().length+' / 78';
+  var h='';
+  list.forEach(function(c){
+    var own=rd.indexOf(c.id)>=0;
+    h+='<div class="mini'+(own?'':' dim')+'" onclick="openCard('+c.id+')">'
+      +'<img src="'+img(c.img)+'" alt="">'
+      +(own?'<div class="own">已读</div>':'')
+      +'<div class="n">'+c.name+'</div>'
+      +'<div class="a">'+(c.arcana==='major'?'主牌':c.suitName+' '+c.roman)+'</div></div>';
+  });
+  document.getElementById('grid').innerHTML=h;
+}
+function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;')}
+function openCard(id){
+  var c=CARDS.filter(function(x){return x.id===id})[0]; if(!c)return;
+  markRead(c.id);
+  var h='<img class="big" src="'+img(c.img)+'">'
+    +'<div class="nm">'+c.name+'</div><div class="en">'+c.en+'</div>'
+    +'<div class="sh-line"><div class="k">关 键 词</div><div class="v">'+esc(c.kw)+'</div></div>'
+    +'<div class="sh-line"><div class="k">这 条 建 议</div><div class="v">'+esc(c.upright)+'</div></div>'
+    +'<div class="sh-line"><div class="k">换 个 角 度 看</div><div class="v">'+esc(c.revText)+'</div></div>'
+    +(c.research?'<div class="sh-line rs"><div class="k">科 研 场 景</div><div class="v">'+esc(c.research)+'</div></div>':'')
+    +(c.advice?'<div class="sh-line"><div class="k">可 以 做 的 事</div><div class="v">'+esc(c.advice)+'</div></div>':'')
+    +(c.quote?'<div class="sh-line quote"><div class="k">金 句</div><div class="v">'+esc(c.quote)+'</div></div>':'')
+    +'<div class="sh-foot"><span class="sh-btn" onclick="closeSheet()">关 闭</span></div>';
+  document.getElementById('sheet').innerHTML=h;
+  document.getElementById('mask').classList.add('on');
+  renderGrid();
+}
+function closeSheet(){document.getElementById('mask').classList.remove('on')}
+function randomOne(){
+  var c=CARDS[Math.floor(Math.random()*CARDS.length)];
+  openCard(c.id);
+}
+
+/* 三个角度 */
+var spread=null;
+function drawSpread(){
+  var pool=CARDS.slice();
+  for(var i=pool.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=pool[i];pool[i]=pool[j];pool[j]=t}
+  spread=pool.slice(0,3).map(function(c){return {c:c,reversed:Math.random()<0.32}});
+  renderSpread();
+}
+function renderSpread(){
+  var rh='',dh='';
+  spread.forEach(function(o,i){
+    var c=o.c;
+    rh+='<div class="sp"><img src="'+img(c.img)+'">'
+      +'<div class="slot">'+SLOT_MINI[i]+'</div>'
+      +'<div class="nm">'+c.name+'</div>'
+      +'<div class="ori">'+(o.reversed?'换个角度看':'这条建议')+'</div></div>';
+    var txt=o.reversed?c.revText:c.upright;
+    dh+='<div class="sd"><div class="h">'+SLOT_MINI[i]+' · '+c.name+'<span>'+(o.reversed?'换个角度看':'这条建议')+'</span></div>'
+      +'<div class="p">'+esc(txt)+'</div>'
+      +(c.research?'<div class="p" style="color:#a9e3c4">'+esc(c.research)+'</div>':'')
+      +(c.quote?'<div class="q">'+esc(c.quote)+'</div>':'')+'</div>';
+  });
+  document.getElementById('spRow').innerHTML=rh;
+  document.getElementById('spDetail').innerHTML=dh;
+  var key=spread.map(function(o){return o.reversed?'R':'U'}).join('');
+  document.getElementById('spSum').textContent=SPREAD_TIP[key]||'';
+}
+function redraw(){drawSpread()}
+
+var TITLES={gallery:'科研灵感卡',draw:'三个角度',about:'关于与反馈'};
+function go(p){
+  ['gallery','draw','about'].forEach(function(k){
+    document.getElementById('p-'+k).style.display = (k===p?'block':'none');
+  });
+  document.querySelectorAll('.tb').forEach(function(t){t.classList.toggle('on',t.dataset.p===p)});
+  document.getElementById('navi').textContent=TITLES[p];
+  document.querySelector('.body').scrollTop=0;
+  if(p==='draw'&&!spread) drawSpread();
+}
+
+renderTabs();renderGrid();drawSpread();
+document.getElementById('ver').textContent='v3 · '+BUILD_AT;
+document.getElementById('ba').textContent=BUILD_AT;
+</script>
+</body>
+</html>
