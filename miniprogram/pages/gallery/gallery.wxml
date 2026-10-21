@@ -5,14 +5,24 @@
     <view class="brand-sub">78 张科研方法论卡片</view>
   </view>
 
+  <!-- 今日一句：按日期固定轮播，同一天所有人相同 -->
+  <view class="daily" bindtap="openDaily">
+    <view class="d-top">
+      <text class="d-lb">今日一句</text>
+      <text class="d-date">{{today}}</text>
+    </view>
+    <view class="d-txt">{{daily.quote || daily.name}}</view>
+    <view class="d-nm">—— {{daily.name}}{{daily.scene ? ' · ' + daily.scene : ''}}</view>
+  </view>
+
   <view class="gh-actions">
-    <view class="gh-btn" bindtap="randomPick">
-      <text class="ico">🔎</text>
-      <text>随便看看</text>
+    <view class="gh-btn accent" bindtap="checkResult">
+      <text class="ico">📬</text>
+      <text>查收 Result</text>
     </view>
     <view class="gh-btn ghost" bindtap="goThree">
       <text class="ico">🧭</text>
-      <text>三个角度</text>
+      <text>我该怎么做</text>
     </view>
     <view class="gh-btn ghost" bindtap="goAbout">
       <text class="ico">📄</text>
@@ -37,6 +47,20 @@
   </view>
 
   <view class="hint">内容为通用科研经验整理<br/>不构成针对个人的判断</view>
+
+  <!-- 查收 Result：投稿结果信封彩蛋，拆开是一张通用建议卡 -->
+  <view class="mask" wx:if="{{mail}}" bindtap="closeMail">
+    <view class="mailcard" catchtap="noop">
+      <view class="m-stamp">📮</view>
+      <view class="m-t">Submission Status · Editorial Office</view>
+      <view class="m-line">Dear Researcher,</view>
+      <view class="m-line">We are pleased to inform you that</view>
+      <view class="m-accept">your submission has been</view>
+      <view class="m-accept big">ACCEPTED 🎉</view>
+      <view class="m-note">（编辑部附言：随信附上一张科研建议卡，请查收）</view>
+      <view class="m-btn" bindtap="openMailCard">拆 开 看 看</view>
+    </view>
+  </view>
 
   <view class="mask" wx:if="{{cur}}" bindtap="closeSheet">
     <view class="sheet" catchtap="noop">
@@ -77,7 +101,7 @@
       </view>
 
       <view class="sh-foot">
-        <view class="sh-btn" bindtap="randomPick">换一张看看</view>
+        <view class="sh-btn" bindtap="checkResult">再收一封 Result</view>
       </view>
     </view>
   </view>

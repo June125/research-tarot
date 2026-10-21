@@ -1611,18 +1611,26 @@ function drawMany(n) {
 /* ---------- 三卡组合的综合提示 ----------
    小程序端只输出不带结论标签的行动提示，不给出评级。
    （网页版 preview/src.html 另有一套带评级档位的 summaryOf，网页不受此限） */
-var SLOT_MINI = ['灵感', '方法', '行动'];
+var SLOT_MINI = ['卡在哪', '怎么破', '怎么收'];
 /* 只写「可以怎么做」，不描述用户此刻的处境，也不给结论标签 */
 var SPREAD_TIP = {
-  UUU: '三条都可以直接照做。挑最要紧的一条先落地，别三条同时开工。',
-  RUU: '先处理第一张提到的那件事，后两条顺势跟上就行。',
-  UUR: '前两条可以直接用，第三条记得留一手备选方案，别在收尾环节赶工。',
-  URU: '重点是中间那条，把它做完；前后两条维持现状即可。',
-  RUR: '先把中间那条能动的做掉，另外两条各记一条待办，别同时开新战线。',
-  RRU: '前两条先各写成一条具体动作，最后那条可以留到收尾时再看。',
-  URR: '先复盘第二张提到的环节，把范围收窄一点；第一条已经有的基础别丢。',
-  RRR: '三条都是值得留意的点，一次看全反而好安排。每条写一句行动项，挑最容易的先做。'
+  UUU: '三条都能直接照做。先按「卡在哪」确认问题，把「怎么破」今天落地一半，收尾用「怎么收」兜底。',
+  RUU: '起步别纠结，「卡在哪」那条先换个角度看，把力气花在「怎么破」上，「怎么收」照做即可。',
+  UUR: '前两条照常推进，最后一步留个备选——「怎么收」那格给了另一个角度，提前想好 Plan B。',
+  URU: '卡点清楚，「怎么破」那格需要换个角度看。先照「卡在哪」确认范围，再从新角度试一次破法。',
+  RUR: '两头的信息有点绕，中间「怎么破」是唯一主线。只做这一件事，前后两条留到明天再对。',
+  RRU: '前两格都提示换角度，只有「怎么收」是明确可执行的。先把收尾做好，再回头处理前两条。',
+  URR: '起点是清楚的，破法和收尾都要换角度。今天就做一件事：照「卡在哪」把问题写下来，破法明天再定。',
+  RRR: '三条都建议换个角度看，说明旧思路该整体翻新了。今天先把三条抄下来对照着看，明天再动手。'
 };
+/* ---------- 每日一句（确定性轮播，非随机）----------
+   同一天所有用户看到同一张：按本地日期取模，从 78 张里固定选一张。
+   这是「按日期推送的固定内容」，与随机抽取无关。 */
+function dailyCard(now) {
+  var d = now || new Date();
+  var day = Math.floor((d.getTime() - d.getTimezoneOffset() * 60000) / 86400000);
+  return CARDS[day % CARDS.length];
+}
 function summaryMini(cards) {
   if (!cards || !cards.length) return { text: '' };
   if (cards.length !== 3) {
@@ -1635,5 +1643,5 @@ function summaryMini(cards) {
 module.exports = {
   CARDS: CARDS, SUIT_ORDER: SUIT_ORDER,
   cardsOf: cardsOf, drawMajor: drawMajor, drawOne: drawOne, drawMany: drawMany,
-  SLOT_MINI: SLOT_MINI, summaryMini: summaryMini
+  SLOT_MINI: SLOT_MINI, summaryMini: summaryMini, dailyCard: dailyCard
 };

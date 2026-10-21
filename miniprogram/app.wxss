@@ -452,3 +452,106 @@ page {
   color: #e8c877;
   letter-spacing: 2rpx;
 }
+
+
+/* ---------- 今日一句 ---------- */
+.daily {
+  margin: 0 0 22rpx;
+  padding: 22rpx 26rpx;
+  background: linear-gradient(135deg, #2a2452 0%, #1c1838 100%);
+  border: 1rpx solid #3f3970;
+  border-radius: 18rpx;
+}
+.daily .d-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+.daily .d-lb {
+  font-size: 22rpx;
+  color: #15122e;
+  background: #e8c877;
+  border-radius: 16rpx;
+  padding: 3rpx 16rpx;
+  letter-spacing: 2rpx;
+  font-weight: 700;
+}
+.daily .d-date { font-size: 20rpx; color: #7d76a0; letter-spacing: 1rpx; }
+.daily .d-txt {
+  font-size: 27rpx;
+  line-height: 1.75;
+  color: #fff3dd;
+  font-style: italic;
+}
+.daily .d-nm {
+  margin-top: 10rpx;
+  text-align: right;
+  font-size: 22rpx;
+  color: #9d96bd;
+  letter-spacing: 1rpx;
+}
+
+/* ---------- 查收 Result 信封 ---------- */
+.mailcard {
+  width: 86%;
+  max-width: 640rpx;
+  margin: 0 auto;
+  background: #f7f2e7;
+  border-radius: 18rpx;
+  padding: 40rpx 36rpx 36rpx;
+  text-align: center;
+  box-shadow: 0 20rpx 60rpx rgba(0,0,0,.5);
+}
+.mailcard .m-stamp { font-size: 60rpx; margin-bottom: 10rpx; }
+.mailcard .m-t {
+  font-size: 22rpx;
+  color: #8a8378;
+  letter-spacing: 2rpx;
+  padding-bottom: 18rpx;
+  border-bottom: 1rpx dashed #d8d0bf;
+  margin-bottom: 22rpx;
+}
+.mailcard .m-line {
+  font-size: 24rpx;
+  color: #6b6459;
+  line-height: 1.9;
+  font-family: Georgia, serif;
+}
+.mailcard .m-accept {
+  font-size: 26rpx;
+  color: #2c6e49;
+  line-height: 1.8;
+  font-family: Georgia, serif;
+  letter-spacing: 1rpx;
+}
+.mailcard .m-accept.big {
+  font-size: 44rpx;
+  font-weight: 700;
+  letter-spacing: 3rpx;
+  margin-top: 6rpx;
+}
+.mailcard .m-note {
+  margin-top: 20rpx;
+  font-size: 21rpx;
+  color: #a39a8b;
+  line-height: 1.7;
+}
+.mailcard .m-btn {
+  display: inline-block;
+  margin-top: 26rpx;
+  padding: 16rpx 52rpx;
+  border-radius: 44rpx;
+  background: #2c6e49;
+  color: #fff;
+  font-size: 26rpx;
+  letter-spacing: 3rpx;
+}
+
+/* 主按钮高亮 */
+.gh-btn.accent {
+  background: linear-gradient(135deg, #e8c877 0%, #d4a94f 100%);
+  border-color: #e8c877;
+  color: #15122e;
+  font-weight: 700;
+}

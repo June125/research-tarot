@@ -24,10 +24,19 @@ Page({
     imgBase: IMG_BASE,
     list: [],
     cur: null,
-    collected: 0
+    collected: 0,
+    daily: null,
+    today: '',
+    mail: false
   },
 
   onLoad: function () {
+    const d = new Date();
+    const pad = function (n) { return n < 10 ? '0' + n : '' + n; };
+    this.setData({
+      daily: U.dailyCard(),
+      today: d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate())
+    });
     this.loadGroup('major');
   },
 
@@ -59,14 +68,31 @@ Page({
     this.setData({ cur: c });
   },
 
-  /* 随便看看：从 78 张里随机翻一张，不作任何解读或评级 */
-  randomPick: function () {
+  /* 今日一句：按日期固定轮播（同一天所有人相同），点开看整卡 */
+  openDaily: function () {
+    const c = this.data.daily;
+    if (!c) return;
+    COLLECT.add([c]);
+    this.loadGroup(this.data.curGroup);
+    this.setData({ cur: c });
+  },
+
+  /* 查收 Result：先开投稿结果信封，拆开是一张随机建议卡（不作解读与评级） */
+  checkResult: function () {
+    this.setData({ mail: true });
+  },
+
+  closeMail: function () {
+    this.setData({ mail: false });
+  },
+
+  openMailCard: function () {
     const cs = U.drawMany(1);
     const c = cs && cs[0];
     if (!c) return;
     COLLECT.add([c]);
     this.loadGroup(this.data.curGroup);
-    this.setData({ cur: c });
+    this.setData({ mail: false, cur: c });
   },
 
   closeSheet: function () {

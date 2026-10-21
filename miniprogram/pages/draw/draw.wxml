@@ -10,7 +10,7 @@
     <view class="shuffle-txt">准 备 中</view>
   </block>
 
-  <!-- 三张组合：灵感 · 方法 · 行动（全 78 张牌池） -->
+  <!-- 三张组合：卡在哪 · 怎么破 · 怎么收（全 78 张牌池） -->
   <block wx:if="{{step === 'result'}}">
     <view class="spread-row">
       <view class="spread-col" wx:for="{{cards}}" wx:key="id">

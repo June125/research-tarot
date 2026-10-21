@@ -30,7 +30,7 @@
   .tb.on .ico{filter:none;opacity:1}
 
   /* 卡片库 */
-  .gh-head{padding:26px 0 12px;text-align:center}
+  .gh-head{padding:22px 0 12px;text-align:center}
   .gh-head .brand{font-size:26px;font-weight:700;letter-spacing:3px;color:var(--gold)}
   .gh-head .brand-sub{font-size:12px;color:var(--sub);letter-spacing:1px;margin-top:5px}
   .gh-actions{display:flex;padding:8px 0 20px}
@@ -40,6 +40,31 @@
   .gh-btn.ghost{background:transparent;color:#b9b3d0}
   .gh-btn .ico{font-size:18px;margin-bottom:4px}
   .collect-bar{font-size:12px;color:var(--sub);text-align:center;padding:0 0 16px}
+
+  /* 今日一句 */
+  .daily{background:linear-gradient(135deg,#2a2452,#1c1838);border:1px solid #3f3970;
+    border-radius:12px;padding:12px 15px;margin-bottom:13px;cursor:pointer}
+  .daily .d-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+  .daily .d-lb{font-size:11px;color:#15122e;background:var(--gold);border-radius:9px;
+    padding:2px 9px;letter-spacing:1px;font-weight:700}
+  .daily .d-date{font-size:10px;color:var(--dim)}
+  .daily .d-txt{font-size:13.5px;line-height:1.75;color:#fff3dd;font-style:italic}
+  .daily .d-nm{margin-top:6px;text-align:right;font-size:11px;color:var(--sub)}
+
+  /* 查收 Result 信封 */
+  .mailcard{width:86%;margin:0 auto;background:#f7f2e7;border-radius:14px;
+    padding:26px 22px 24px;text-align:center;box-shadow:0 14px 44px rgba(0,0,0,.5)}
+  .mailcard .m-stamp{font-size:34px;margin-bottom:6px}
+  .mailcard .m-t{font-size:11px;color:#8a8378;letter-spacing:1px;
+    padding-bottom:12px;border-bottom:1px dashed #d8d0bf;margin-bottom:14px}
+  .mailcard .m-line{font-size:12px;color:#6b6459;line-height:1.9;font-family:Georgia,serif}
+  .mailcard .m-accept{font-size:13px;color:#2c6e49;line-height:1.8;font-family:Georgia,serif}
+  .mailcard .m-accept.big{font-size:22px;font-weight:700;letter-spacing:2px;margin-top:4px}
+  .mailcard .m-note{margin-top:12px;font-size:10.5px;color:#a39a8b;line-height:1.7}
+  .mailcard .m-btn{display:inline-block;margin-top:16px;padding:9px 30px;border-radius:22px;
+    background:#2c6e49;color:#fff;font-size:13px;letter-spacing:2px;cursor:pointer}
+  .gh-btn.accent{background:linear-gradient(135deg,#e8c877,#d4a94f);border-color:var(--gold);
+    color:#15122e;font-weight:700}
   .tabs{display:flex;gap:7px;overflow-x:auto;padding-bottom:12px}
   .tabs::-webkit-scrollbar{height:0}
   .tab{padding:6px 13px;border-radius:20px;background:var(--card);border:1px solid var(--line);
@@ -75,7 +100,7 @@
   .sh-btn{display:inline-block;padding:10px 26px;border-radius:22px;background:var(--card);
     border:1px solid var(--line);font-size:13px;color:var(--gold);cursor:pointer}
 
-  /* 三个角度 */
+  /* 我该怎么做 */
   .sp-head{text-align:center;padding:22px 0 6px}
   .sp-head .t{font-size:19px;font-weight:700;letter-spacing:3px;color:#fff3dd}
   .sp-head .s{font-size:11px;color:var(--dim);margin-top:5px;letter-spacing:1px}
@@ -121,31 +146,39 @@
 <div class="phone">
   <div class="navi" id="navi">科研灵感卡</div>
   <div class="body">
-    <!-- 卡片库 -->
-    <div class="page" id="p-gallery">
-      <div class="gh-head">
-        <div class="brand">科研灵感卡</div>
-        <div class="brand-sub">78 张科研提示卡 · 开题 组会 投稿 经费 返修</div>
-      </div>
-      <div class="gh-actions">
-        <div class="gh-btn" onclick="randomOne()"><span class="ico">🃏</span>随便看看</div>
-        <div class="gh-btn ghost" onclick="go('about')"><span class="ico">📄</span>关于与反馈</div>
-      </div>
-      <div class="collect-bar" id="cbar">已读 0 / 78</div>
-      <div class="tabs" id="tabs"></div>
-      <div class="grid" id="grid"></div>
+  <!-- 卡片库 -->
+  <div class="page" id="p-gallery">
+    <div class="gh-head">
+      <div class="brand">科研灵感卡</div>
+      <div class="brand-sub">78 张科研方法论卡片</div>
     </div>
 
-    <!-- 三个角度 -->
-    <div class="page" id="p-draw" style="display:none">
-      <div class="sp-head">
-        <div class="t">三 个 角 度</div>
-        <div class="s">灵感 · 方法 · 行动</div>
-      </div>
+    <div class="daily" onclick="openDaily()">
+      <div class="d-top"><span class="d-lb">今日一句</span><span class="d-date" id="ddate"></span></div>
+      <div class="d-txt" id="dquote"></div>
+      <div class="d-nm" id="dnm"></div>
+    </div>
+
+    <div class="gh-actions">
+      <div class="gh-btn accent" onclick="checkResult()"><span class="ico">📬</span>查收 Result</div>
+      <div class="gh-btn ghost" onclick="go('draw')"><span class="ico">🧭</span>我该怎么做</div>
+      <div class="gh-btn ghost" onclick="go('about')"><span class="ico">📄</span>关于</div>
+    </div>
+    <div class="collect-bar" id="cbar">已读 0 / 78</div>
+    <div class="tabs" id="tabs"></div>
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <!-- 我该怎么做 -->
+  <div class="page" id="p-draw" style="display:none">
+    <div class="sp-head">
+      <div class="t">我 该 怎 么 做</div>
+      <div class="s">卡在哪 · 怎么破 · 怎么收</div>
+    </div>
       <div class="sp-row" id="spRow"></div>
       <div class="sp-detail" id="spDetail"></div>
       <div class="sum"><div class="lv">综合提示</div><p id="spSum"></p></div>
-      <div class="again"><div class="btn" onclick="redraw()">再 换 一 组</div></div>
+      <div class="again"><div class="btn" onclick="redraw()">再 来 一 组</div></div>
     </div>
 
     <!-- 关于 -->
@@ -154,7 +187,7 @@
         <div class="hd">关于科研灵感卡</div>
         <div class="sec">
           <div class="t">这是什么</div>
-          <div class="p">一个面向研究生和科研工作者的科研经验卡片库。共 78 张卡片，按主题分类翻阅，也可以随便看看。内容围绕开题、组会、投稿、经费、导师沟通、论文返修等科研日常场景，每张给出一条可以照做的行动建议。</div>
+          <div class="p">一个面向研究生和科研工作者的科研经验卡片库。共 78 张卡片，按主题分类翻阅，也可以点「查收 Result」随机读一张。内容围绕开题、组会、投稿、经费、导师沟通、论文返修等科研日常场景，每张给出一条可以照做的行动建议。</div>
         </div>
         <div class="sec">
           <div class="t">免责声明</div>
@@ -176,6 +209,19 @@
     </div>
   </div>
 
+  <div class="mask" id="mailmask" onclick="if(event.target===this)closeMail()">
+    <div class="mailcard">
+      <div class="m-stamp">📮</div>
+      <div class="m-t">Submission Status · Editorial Office</div>
+      <div class="m-line">Dear Researcher,</div>
+      <div class="m-line">We are pleased to inform you that</div>
+      <div class="m-accept">your submission has been</div>
+      <div class="m-accept big">ACCEPTED 🎉</div>
+      <div class="m-note">（编辑部附言：随信附上一张科研建议卡，请查收）</div>
+      <div class="m-btn" onclick="openMailCard()">拆 开 看 看</div>
+    </div>
+  </div>
+
   <div class="mask" id="mask" onclick="if(event.target===this)closeSheet()">
     <div class="sheet" id="sheet"></div>
   </div>
@@ -184,7 +230,7 @@
 
   <div class="tabbar">
     <div class="tb on" data-p="gallery" onclick="go('gallery')"><span class="ico">🗂</span>卡片库</div>
-    <div class="tb" data-p="draw" onclick="go('draw')"><span class="ico">🃏</span>三个角度</div>
+    <div class="tb" data-p="draw" onclick="go('draw')"><span class="ico">🧭</span>我该怎么做</div>
     <div class="tb" data-p="about" onclick="go('about')"><span class="ico">📄</span>关于</div>
   </div>
 </div>
@@ -251,7 +297,30 @@ function randomOne(){
   openCard(c.id);
 }
 
-/* 三个角度 */
+/* 今日一句：按日期确定性轮播（同一天所有人相同） */
+function dailyCard(){
+  var now=new Date();
+  var day=Math.floor((now.getTime()-now.getTimezoneOffset()*60000)/86400000);
+  return CARDS[day%CARDS.length];
+}
+var DAILY=dailyCard();
+function renderDaily(){
+  var now=new Date(),p=function(n){return n<10?'0'+n:''+n};
+  document.getElementById('ddate').textContent=now.getFullYear()+'-'+p(now.getMonth()+1)+'-'+p(now.getDate());
+  document.getElementById('dquote').textContent=DAILY.quote||DAILY.name;
+  document.getElementById('dnm').textContent='—— '+DAILY.name+(DAILY.scene?' · '+DAILY.scene:'');
+}
+function openDaily(){openCard(DAILY.id)}
+
+/* 查收 Result：投稿结果信封 → 拆开一张随机建议卡 */
+function checkResult(){document.getElementById('mailmask').classList.add('on')}
+function closeMail(){document.getElementById('mailmask').classList.remove('on')}
+function openMailCard(){
+  closeMail();
+  randomOne();
+}
+
+/* 我该怎么做 */
 var spread=null;
 function drawSpread(){
   var pool=CARDS.slice();
@@ -280,7 +349,7 @@ function renderSpread(){
 }
 function redraw(){drawSpread()}
 
-var TITLES={gallery:'科研灵感卡',draw:'三个角度',about:'关于与反馈'};
+var TITLES={gallery:'科研灵感卡',draw:'我该怎么做',about:'关于与反馈'};
 function go(p){
   ['gallery','draw','about'].forEach(function(k){
     document.getElementById('p-'+k).style.display = (k===p?'block':'none');
@@ -291,7 +360,7 @@ function go(p){
   if(p==='draw'&&!spread) drawSpread();
 }
 
-renderTabs();renderGrid();drawSpread();
+renderTabs();renderGrid();drawSpread();renderDaily();
 document.getElementById('ver').textContent='v3 · '+BUILD_AT;
 document.getElementById('ba').textContent=BUILD_AT;
 </script>

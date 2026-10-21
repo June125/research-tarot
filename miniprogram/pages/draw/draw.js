@@ -1,6 +1,6 @@
 const U = require('../../utils/cards.js');
 const COLLECT = require('../../utils/collect.js');
-const SLOT = U.SLOT_MINI || ['灵感', '方法', '行动'];
+const SLOT = U.SLOT_MINI || ['卡在哪', '怎么破', '怎么收'];
 
 /**
  * 牌图路径前缀
@@ -23,7 +23,7 @@ Page({
   },
 
   onLoad: function () {
-    wx.setNavigationBarTitle({ title: '三个角度' });
+    wx.setNavigationBarTitle({ title: '我该怎么做' });
     this.dealAfterShuffle();
   },
 
@@ -91,7 +91,7 @@ Page({
     const self = this;
     if (!self.data.cards.length) return;
     const s = U.summaryMini ? U.summaryMini(self.data.cards) : { text: '' };
-    const t = '【科研灵感卡 · 三个角度】\n'
+    const t = '【科研灵感卡 · 我该怎么做】\n'
       + self.data.cards.map(function (c, i) {
           return SLOT[i] + '：' + c.name + (c.scene ? '（' + c.scene + '）' : '')
             + '（' + (c.reversed ? '换个角度看' : '这条建议') + '）';
@@ -106,6 +106,6 @@ Page({
   },
 
   onShareAppMessage: function () {
-    return { title: '科研灵感卡 · 三个角度', path: '/pages/gallery/gallery' };
+    return { title: '科研灵感卡 · 我该怎么做', path: '/pages/gallery/gallery' };
   }
 });
