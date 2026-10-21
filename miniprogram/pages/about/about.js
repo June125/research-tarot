@@ -14,8 +14,8 @@ Page({
   clearCollect: function () {
     const self = this;
     wx.showModal({
-      title: '清空收集进度',
-      content: '会清除已收集的卡牌记录（本地数据，不可恢复），确定吗？',
+      title: '清空阅读记录',
+      content: '会清除已读标记（本地数据，不可恢复），确定吗？',
       success: function (res) {
         if (res.confirm) {
           COLLECT.clear();

@@ -177,7 +177,7 @@ page {
 .flip.pending { animation: breathe 1.8s infinite ease-in-out; }
 @keyframes breathe { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10rpx); } }
 
-/* ---------- 洗牌 ---------- */
+/* ---------- 准备动画 ---------- */
 .shuffle-wrap { position: relative; width: 400rpx; height: 660rpx; margin: 120rpx auto 40rpx; }
 .shuffle-wrap .sb { position: absolute; left: 0; top: 0; width: 100%; height: 100%; animation: shuf 1.1s infinite ease-in-out; }
 .shuffle-wrap .sb:nth-child(2) { animation-delay: .12s; }
@@ -340,7 +340,7 @@ page {
   border-radius: 0 16rpx 16rpx 0;
 }
 
-/* ---------- 收集进度 / 关于页 ---------- */
+/* ---------- 已读进度 / 关于页 ---------- */
 .collect-bar {
   font-size: 22rpx;
   color: #9d96bd;
@@ -400,4 +400,55 @@ page {
 .about .sec .p.mail {
   color: #8fd0ff;
   text-decoration: underline;
+}
+
+
+/* ---------- 卡片库主页 ---------- */
+.gh-head { padding: 36rpx 8rpx 18rpx; text-align: center; }
+.gh-head .brand {
+  font-size: 44rpx;
+  font-weight: 700;
+  letter-spacing: 6rpx;
+  color: #e8c877;
+  margin-bottom: 10rpx;
+}
+.gh-head .brand-sub {
+  font-size: 24rpx;
+  color: #9d96bd;
+  letter-spacing: 2rpx;
+}
+.gh-actions {
+  display: flex;
+  align-items: stretch;
+  padding: 10rpx 2rpx 30rpx;
+}
+.gh-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16rpx 0;
+  border-radius: 16rpx;
+  background: #231f45;
+  border: 1rpx solid #3a3468;
+  font-size: 24rpx;
+  color: #e8e4f5;
+  letter-spacing: 1rpx;
+}
+.gh-btn + .gh-btn { margin-left: 16rpx; }
+.gh-btn.ghost { background: transparent; color: #b9b3d0; }
+.gh-btn .ico { font-size: 32rpx; margin-bottom: 6rpx; }
+
+/* 弹层底部操作 */
+.sh-foot { padding: 10rpx 0 6rpx; text-align: center; }
+.sh-btn {
+  display: inline-block;
+  padding: 16rpx 44rpx;
+  border-radius: 44rpx;
+  background: #231f45;
+  border: 1rpx solid #3a3468;
+  font-size: 26rpx;
+  color: #e8c877;
+  letter-spacing: 2rpx;
 }

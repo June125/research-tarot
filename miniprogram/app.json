@@ -1,14 +1,13 @@
 {
   "pages": [
-    "pages/index/index",
-    "pages/draw/draw",
     "pages/gallery/gallery",
+    "pages/draw/draw",
     "pages/about/about"
   ],
   "window": {
     "navigationBarBackgroundColor": "#15122f",
     "navigationBarTextStyle": "white",
-    "navigationBarTitleText": "今日科研卡",
+    "navigationBarTitleText": "科研灵感卡",
     "backgroundColor": "#0e0c22",
     "backgroundTextStyle": "light"
   },

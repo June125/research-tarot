@@ -1,19 +1,42 @@
 <view class="page">
+
+  <view class="gh-head">
+    <view class="brand">科研灵感卡</view>
+    <view class="brand-sub">78 张科研方法论卡片</view>
+  </view>
+
+  <view class="gh-actions">
+    <view class="gh-btn" bindtap="randomPick">
+      <text class="ico">🔎</text>
+      <text>随便看看</text>
+    </view>
+    <view class="gh-btn ghost" bindtap="goThree">
+      <text class="ico">🧭</text>
+      <text>三个角度</text>
+    </view>
+    <view class="gh-btn ghost" bindtap="goAbout">
+      <text class="ico">📄</text>
+      <text>关于</text>
+    </view>
+  </view>
+
   <scroll-view class="tabs" scroll-x>
     <view class="tab {{curGroup === item.key ? 'on' : ''}}" wx:for="{{groups}}" wx:key="key"
           data-k="{{item.key}}" bindtap="switchGroup">{{item.label}}</view>
   </scroll-view>
 
-  <view class="collect-bar">已收集 {{collected}} / 78 张　·　抽到的卡会自动收进这里</view>
+  <view class="collect-bar">已读 {{collected}} / 78 张　·　翻过的卡会标成已读</view>
 
   <view class="grid">
     <view class="mini {{item.owned ? '' : 'dim'}}" wx:for="{{list}}" wx:key="id" data-i="{{index}}" bindtap="openSheet">
       <image class="thumb" src="{{imgBase}}{{item.img}}" mode="aspectFill" lazy-load></image>
       <view class="n">{{item.name}}</view>
       <view class="a">{{item.sub}}</view>
-      <view class="own" wx:if="{{item.owned}}">已收集</view>
+      <view class="own" wx:if="{{item.owned}}">已读</view>
     </view>
   </view>
+
+  <view class="hint">内容为通用科研经验整理<br/>不构成针对个人的判断</view>
 
   <view class="mask" wx:if="{{cur}}" bindtap="closeSheet">
     <view class="sheet" catchtap="noop">
@@ -29,7 +52,7 @@
           <view class="n">{{cur.en}}</view>
           <view class="sc" wx:if="{{cur.scene}}">{{cur.scene}}</view>
           <view class="k">{{cur.kw}}</view>
-          <view class="en">{{cur.arcana === 'major' ? '大阿尔卡纳' : cur.element}}</view>
+          <view class="en">{{cur.arcana === 'major' ? '主牌 · 22 张' : cur.element}}</view>
         </view>
       </view>
 
@@ -37,11 +60,11 @@
         <view class="v">{{cur.quote}}</view>
       </view>
       <view class="sh-line">
-        <view class="k">正 向 · 事业学业</view>
+        <view class="k">这 条 建 议</view>
         <view class="v up">{{cur.upright}}</view>
       </view>
       <view class="sh-line">
-        <view class="k">提 醒 · 事业学业</view>
+        <view class="k">换 个 角 度 看</view>
         <view class="v down">{{cur.revText}}</view>
       </view>
       <view class="sh-line rs">
@@ -51,6 +74,10 @@
       <view class="sh-line">
         <view class="k">行 动 建 议</view>
         <view class="v">{{cur.advice}}</view>
+      </view>
+
+      <view class="sh-foot">
+        <view class="sh-btn" bindtap="randomPick">换一张看看</view>
       </view>
     </view>
   </view>

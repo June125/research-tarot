@@ -1,7 +1,6 @@
 const U = require('../../utils/cards.js');
 const COLLECT = require('../../utils/collect.js');
-const KEY = 'research_tarot_today';
-const SLOT = U.SLOT_MINI || ['现状', '卡点', '下一步'];
+const SLOT = U.SLOT_MINI || ['灵感', '方法', '行动'];
 
 /**
  * 牌图路径前缀
@@ -11,18 +10,10 @@ const SLOT = U.SLOT_MINI || ['现状', '卡点', '下一步'];
  */
 const IMG_BASE = '/assets/cards/';
 
-function todayKey() {
-  const d = new Date();
-  return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
-}
-
 Page({
   data: {
-    mode: 'single',
     step: 'shuffle',
     imgBase: IMG_BASE,
-    card: null,
-    flipped: false,
     cards: [],
     flips: [false, false, false],
     slots: SLOT,
@@ -31,57 +22,28 @@ Page({
     showDetail: false
   },
 
-  onLoad: function (opt) {
-    const mode = (opt && opt.mode === 'three') ? 'three' : 'single';
-    this.setData({ mode: mode });
-    wx.setNavigationBarTitle({ title: mode === 'single' ? '今日一卡' : '三卡组合' });
-
-    // 今日已抽过：直接回看，不重复发牌
-    if (mode === 'single' && opt && opt.replay) {
-      let rec = null;
-      try { rec = wx.getStorageSync(KEY); } catch (e) { rec = null; }
-      if (rec && rec.date === todayKey()) {
-        this.setData({ card: rec, step: 'result' });
-        setTimeout(() => this.setData({ flipped: true }), 260);
-        return;
-      }
-    }
-
+  onLoad: function () {
+    wx.setNavigationBarTitle({ title: '三个角度' });
     this.dealAfterShuffle();
   },
 
   dealAfterShuffle: function () {
     const self = this;
-    setTimeout(function () { self.deal(); }, 1700);
+    setTimeout(function () { self.deal(); }, 1500);
   },
 
   deal: function () {
-    if (this.data.mode === 'single') {
-      // 今日一卡：只从 22 张大牌里出
-      const c = U.drawMajor();
-      try {
-        wx.setStorageSync(KEY, Object.assign({ date: todayKey() }, c));
-      } catch (e) {}
-      COLLECT.add([c]);
-      this.setData({ card: c, step: 'result', flipped: false });
-      setTimeout(() => this.setData({ flipped: true }), 260);
-    } else {
-      // 三卡组合：全 78 张牌池，不重复
-      const cs = U.drawMany(3);
-      COLLECT.add(cs);
-      this.setData({
-        cards: cs,
-        flips: [false, false, false],
-        detail: [],
-        summary: null,
-        showDetail: false,
-        step: 'result'
-      });
-    }
-  },
-
-  flipSingle: function () {
-    if (!this.data.flipped) this.setData({ flipped: true });
+    // 三张不重复，全 78 张牌池
+    const cs = U.drawMany(3);
+    COLLECT.add(cs);
+    this.setData({
+      cards: cs,
+      flips: [false, false, false],
+      detail: [],
+      summary: null,
+      showDetail: false,
+      step: 'result'
+    });
   },
 
   flipOne: function (e) {
@@ -126,32 +88,24 @@ Page({
   },
 
   copy: function () {
-    let t = '';
-    if (this.data.mode === 'single' && this.data.card) {
-      const c = this.data.card;
-      t = '【今日科研卡】\n' + c.roman + ' ' + c.name + (c.scene ? '（' + c.scene + '）' : '')
-        + '（' + (c.reversed ? '提醒' : '正向') + '）\n'
-        + '提示：' + (c.reversed ? c.revText : c.upright) + '\n科研：' + c.research + '\n建议：' + c.advice;
-    } else if (this.data.cards.length) {
-      const s = U.summaryMini ? U.summaryMini(this.data.cards) : { text: '' };
-      t = '【今日科研卡 · 三卡组合】\n'
-        + this.data.cards.map(function (c, i) {
-            return SLOT[i] + '：' + c.name + (c.scene ? '（' + c.scene + '）' : '') + '（' + (c.reversed ? '提醒' : '正向') + '）';
-          }).join('\n')
-        + '\n\n综合：' + s.text;
-    }
+    const self = this;
+    if (!self.data.cards.length) return;
+    const s = U.summaryMini ? U.summaryMini(self.data.cards) : { text: '' };
+    const t = '【科研灵感卡 · 三个角度】\n'
+      + self.data.cards.map(function (c, i) {
+          return SLOT[i] + '：' + c.name + (c.scene ? '（' + c.scene + '）' : '')
+            + '（' + (c.reversed ? '换个角度看' : '这条建议') + '）';
+        }).join('\n')
+      + '\n\n综合：' + s.text;
     wx.setClipboardData({
       data: t,
       success: function () {
-        wx.showToast({ title: '已复制，去群里整活', icon: 'none' });
+        wx.showToast({ title: '已复制', icon: 'none' });
       }
     });
   },
 
   onShareAppMessage: function () {
-    const title = this.data.mode === 'single' && this.data.card
-      ? '我今天抽到了「' + this.data.card.name + '」，你呢？'
-      : '今日科研卡 · 三卡组合';
-    return { title: title, path: '/pages/index/index' };
+    return { title: '科研灵感卡 · 三个角度', path: '/pages/gallery/gallery' };
   }
 });

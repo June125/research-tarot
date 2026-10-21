@@ -1,14 +1,14 @@
 /**
- * 今日科研卡 · 牌库数据（78 张，经典卡牌体系）
+ * 科研灵感卡 · 卡片数据（78 张，经典卡牌体系）
  *
  * ⚠️ 本文件由 tools/build.js 自动生成，请勿直接编辑。
  *    编辑源：文案/牌义文案.md  ——  改完执行：node tools/build.js
  *
  * 字段说明：
- *   upright / revText   市面通行牌义（正位 / 逆位文案），已剥离感情线，只保留事业、学业、资源、协作
- *   reversed            运行时字段，表示本次抽到的是否逆位（布尔），由抽牌函数注入
+ *   upright / revText   两条互补的提示文案，已剥离感情线，只保留事业、学业、资源、协作
+ *   reversed            运行时字段，表示本次取到的是哪一条（布尔），由随机函数注入
  *   research            映射到科研场景的提示
- *   advice              当天可执行的建议
+ *   advice              可以照做的建议
  *   img                 牌图文件名，位于 assets/cards/（RWS 1909，公有领域）
  */
 var CARDS = [
@@ -16,7 +16,7 @@ var CARDS = [
     id: 0,
     arcana: "major",
     suit: null,
-    suitName: "大阿尔卡纳",
+    suitName: "主牌",
     element: "人生主课题",
     name: "愚者",
     scene: "开题",
@@ -36,7 +36,7 @@ var CARDS = [
     id: 1,
     arcana: "major",
     suit: null,
-    suitName: "大阿尔卡纳",
+    suitName: "主牌",
     element: "人生主课题",
     name: "魔术师",
     scene: "组会",
@@ -56,7 +56,7 @@ var CARDS = [
     id: 2,
     arcana: "major",
     suit: null,
-    suitName: "大阿尔卡纳",
+    suitName: "主牌",
     element: "人生主课题",
     name: "女祭司",
     scene: "文献",
@@ -76,7 +76,7 @@ var CARDS = [
     id: 3,
     arcana: "major",
     suit: null,
-    suitName: "大阿尔卡纳",
+    suitName: "主牌",
     element: "人生主课题",
     name: "皇后",
     scene: "经费",
@@ -96,7 +96,7 @@ var CARDS = [
     id: 4,
     arcana: "major",
     suit: null,
-    suitName: "大阿尔卡纳",
+    suitName: "主牌",
     element: "人生主课题",
     name: "皇帝",
     scene: "导师",
@@ -116,7 +116,7 @@ var CARDS = [
     id: 5,
     arcana: "major",
     suit: null,
-    suitName: "大阿尔卡纳",
+    suitName: "主牌",
     element: "人生主课题",
     name: "教皇",
     scene: "审稿人",
@@ -136,7 +136,7 @@ var CARDS = [
     id: 6,
     arcana: "major",
     suit: null,
-    suitName: "大阿尔卡纳",
+    suitName: "主牌",
     element: "人生主课题",
     name: "恋人",
     scene: "合作",
@@ -156,7 +156,7 @@ var CARDS = [
     id: 7,
     arcana: "major",
     suit: null,
-    suitName: "大阿尔卡纳",
+    suitName: "主牌",
     element: "人生主课题",
     name: "战车",
     scene: "冲刺",
@@ -176,7 +176,7 @@ var CARDS = [
     id: 8,
     arcana: "major",
     suit: null,
-    suitName: "大阿尔卡纳",
+    suitName: "主牌",
     element: "人生主课题",
     name: "力量",
     scene: "坚韧",
@@ -196,7 +196,7 @@ var CARDS = [
     id: 9,
     arcana: "major",
     suit: null,
-    suitName: "大阿尔卡纳",
+    suitName: "主牌",
     element: "人生主课题",
     name: "隐者",
     scene: "闭关",
@@ -216,7 +216,7 @@ var CARDS = [
     id: 10,
     arcana: "major",
     suit: null,
-    suitName: "大阿尔卡纳",
+    suitName: "主牌",
     element: "人生主课题",
     name: "命运之轮",
     scene: "投稿",
@@ -236,7 +236,7 @@ var CARDS = [
     id: 11,
     arcana: "major",
     suit: null,
-    suitName: "大阿尔卡纳",
+    suitName: "主牌",
     element: "人生主课题",
     name: "正义",
     scene: "署名",
@@ -256,7 +256,7 @@ var CARDS = [
     id: 12,
     arcana: "major",
     suit: null,
-    suitName: "大阿尔卡纳",
+    suitName: "主牌",
     element: "人生主课题",
     name: "倒吊人",
     scene: "内省",
@@ -276,7 +276,7 @@ var CARDS = [
     id: 13,
     arcana: "major",
     suit: null,
-    suitName: "大阿尔卡纳",
+    suitName: "主牌",
     element: "人生主课题",
     name: "死神",
     scene: "新生",
@@ -296,7 +296,7 @@ var CARDS = [
     id: 14,
     arcana: "major",
     suit: null,
-    suitName: "大阿尔卡纳",
+    suitName: "主牌",
     element: "人生主课题",
     name: "节制",
     scene: "节制",
@@ -316,7 +316,7 @@ var CARDS = [
     id: 15,
     arcana: "major",
     suit: null,
-    suitName: "大阿尔卡纳",
+    suitName: "主牌",
     element: "人生主课题",
     name: "恶魔",
     scene: "内卷",
@@ -336,7 +336,7 @@ var CARDS = [
     id: 16,
     arcana: "major",
     suit: null,
-    suitName: "大阿尔卡纳",
+    suitName: "主牌",
     element: "人生主课题",
     name: "高塔",
     scene: "巨变",
@@ -356,7 +356,7 @@ var CARDS = [
     id: 17,
     arcana: "major",
     suit: null,
-    suitName: "大阿尔卡纳",
+    suitName: "主牌",
     element: "人生主课题",
     name: "星星",
     scene: "灵感",
@@ -376,7 +376,7 @@ var CARDS = [
     id: 18,
     arcana: "major",
     suit: null,
-    suitName: "大阿尔卡纳",
+    suitName: "主牌",
     element: "人生主课题",
     name: "月亮",
     scene: "心态",
@@ -396,7 +396,7 @@ var CARDS = [
     id: 19,
     arcana: "major",
     suit: null,
-    suitName: "大阿尔卡纳",
+    suitName: "主牌",
     element: "人生主课题",
     name: "太阳",
     scene: "接收",
@@ -416,7 +416,7 @@ var CARDS = [
     id: 20,
     arcana: "major",
     suit: null,
-    suitName: "大阿尔卡纳",
+    suitName: "主牌",
     element: "人生主课题",
     name: "审判",
     scene: "答辩",
@@ -436,7 +436,7 @@ var CARDS = [
     id: 21,
     arcana: "major",
     suit: null,
-    suitName: "大阿尔卡纳",
+    suitName: "主牌",
     element: "人生主课题",
     name: "世界",
     scene: "毕业",
@@ -1575,7 +1575,7 @@ var CARDS = [
 ];
 
 var SUIT_ORDER = [
-  { key: 'major', label: '大阿尔卡纳', en: 'Major Arcana' },
+  { key: 'major', label: '主牌', en: 'Main · 22 张' },
   { key: 'wands', label: '权杖', en: 'Wands · 火' },
   { key: 'cups', label: '圣杯', en: 'Cups · 水' },
   { key: 'swords', label: '宝剑', en: 'Swords · 风' },
@@ -1588,14 +1588,14 @@ function cardsOf(key) {
   });
 }
 
-/* 今日一抽：只从 22 张大阿尔卡纳中抽 */
+/* 随机取一张：从 22 张主牌中取 */
 function drawMajor() {
   var pool = CARDS.filter(function (c) { return c.arcana === 'major'; });
   var c = pool[Math.floor(Math.random() * pool.length)];
   return Object.assign({}, c, { reversed: Math.random() < 0.32 });
 }
 
-/* 兼容旧调用：等同于 drawMajor */
+/* 兼容旧调用：等同于 drawMajor（小程序端已不再使用） */
 function drawOne() { return drawMajor(); }
 
 /* 抽 n 张不重复（全 78 张牌池） */
@@ -1611,24 +1611,25 @@ function drawMany(n) {
 /* ---------- 三卡组合的综合提示 ----------
    小程序端只输出不带结论标签的行动提示，不给出评级。
    （网页版 preview/src.html 另有一套带评级档位的 summaryOf，网页不受此限） */
-var SLOT_MINI = ['现状', '卡点', '下一步'];
+var SLOT_MINI = ['灵感', '方法', '行动'];
+/* 只写「可以怎么做」，不描述用户此刻的处境，也不给结论标签 */
 var SPREAD_TIP = {
-  UUU: '三张都是正向卡，这几件事现在都推得动。挑最要紧的一件先做完，别摊太薄。',
-  RUU: '第一张是提醒位，后两张是正向。先把那件一直拖着的收个尾，后面会顺很多。',
-  UUR: '前两张正向、最后一张是提醒。收尾环节留一手预案，别在最后一步赶工。',
-  URU: '中间那张是提醒位，前后都正向。集中处理这一件事就够了，不用全线调整。',
-  RUR: '两张提醒夹着一张正向。力气集中在中间那件能动的，别同时开新战线。',
-  RRU: '前两张是提醒、最后一张正向。先把眼前这两条写成行动项，收尾会比现在顺。',
-  URR: '第一张正向，后两张是提醒。先复盘中间那个转折点，把范围收窄一点，别硬推。',
-  RRR: '三张都是提醒位，问题一次摊开反而好办。今天适合复盘和休整，各写一条行动项，明天再动。'
+  UUU: '三条都可以直接照做。挑最要紧的一条先落地，别三条同时开工。',
+  RUU: '先处理第一张提到的那件事，后两条顺势跟上就行。',
+  UUR: '前两条可以直接用，第三条记得留一手备选方案，别在收尾环节赶工。',
+  URU: '重点是中间那条，把它做完；前后两条维持现状即可。',
+  RUR: '先把中间那条能动的做掉，另外两条各记一条待办，别同时开新战线。',
+  RRU: '前两条先各写成一条具体动作，最后那条可以留到收尾时再看。',
+  URR: '先复盘第二张提到的环节，把范围收窄一点；第一条已经有的基础别丢。',
+  RRR: '三条都是值得留意的点，一次看全反而好安排。每条写一句行动项，挑最容易的先做。'
 };
 function summaryMini(cards) {
   if (!cards || !cards.length) return { text: '' };
   if (cards.length !== 3) {
-    return { text: '把每张卡的提醒各写成一条行动项，挑最要紧的先做。' };
+    return { text: '把每张卡的建议各写成一条行动项，挑最要紧的先做。' };
   }
   var key = cards.map(function (c) { return c.reversed ? 'R' : 'U'; }).join('');
-  return { text: SPREAD_TIP[key] || '把这三张的提醒各写成一条行动项，挑最要紧的先做。' };
+  return { text: SPREAD_TIP[key] || '把这三张的建议各写成一条行动项，挑最要紧的先做。' };
 }
 
 module.exports = {

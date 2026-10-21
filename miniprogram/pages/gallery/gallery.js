@@ -9,6 +9,12 @@ const GROUPS = [
   { key: 'pent', label: '星币 · 土' }
 ];
 
+/**
+ * 牌图路径前缀
+ *   本地图：'/assets/cards/'（已压缩至主包 2MB 以内）
+ *   若后续图变大，可上传到 CDN，把这里换成 'https://你的已备案域名/cards/'
+ *   （需同时在小程序后台配置 downloadFile 合法域名）
+ */
 const IMG_BASE = '/assets/cards/';
 
 Page({
@@ -26,7 +32,6 @@ Page({
   },
 
   onShow: function () {
-    this.setData({ collected: COLLECT.getAll().length });
     this.loadGroup(this.data.curGroup);
   },
 
@@ -47,7 +52,21 @@ Page({
 
   openSheet: function (e) {
     const i = Number(e.currentTarget.dataset.i);
-    this.setData({ cur: this.data.list[i] });
+    const c = this.data.list[i];
+    if (!c) return;
+    COLLECT.add([c]);
+    this.loadGroup(this.data.curGroup);
+    this.setData({ cur: c });
+  },
+
+  /* 随便看看：从 78 张里随机翻一张，不作任何解读或评级 */
+  randomPick: function () {
+    const cs = U.drawMany(1);
+    const c = cs && cs[0];
+    if (!c) return;
+    COLLECT.add([c]);
+    this.loadGroup(this.data.curGroup);
+    this.setData({ cur: c });
   },
 
   closeSheet: function () {
@@ -56,7 +75,15 @@ Page({
 
   noop: function () {},
 
+  goThree: function () {
+    wx.navigateTo({ url: '/pages/draw/draw' });
+  },
+
+  goAbout: function () {
+    wx.navigateTo({ url: '/pages/about/about' });
+  },
+
   onShareAppMessage: function () {
-    return { title: '今日科研卡 · 78 张完整牌库', path: '/pages/index/index' };
+    return { title: '科研灵感卡 · 78 张科研方法论卡片', path: '/pages/gallery/gallery' };
   }
 });
