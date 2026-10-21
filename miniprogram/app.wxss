@@ -126,6 +126,21 @@ page {
 }
 .art.rv { transform: rotate(180deg); }
 
+/* 逆位角标：贴在牌图右上角，一眼可见「这张是倒着看的」 */
+.rv-badge {
+  position: absolute;
+  top: 14rpx; right: 14rpx;
+  z-index: 3;
+  display: flex; align-items: center;
+  padding: 5rpx 14rpx;
+  font-size: 20rpx; letter-spacing: 1rpx; color: #fff;
+  background: linear-gradient(135deg, #f08a8a, #e06868);
+  border: 1rpx solid rgba(255, 255, 255, .35);
+  border-radius: 30rpx;
+  box-shadow: 0 4rpx 14rpx rgba(224, 104, 104, .4);
+}
+.flip.mini .rv-badge { top: 10rpx; right: 10rpx; padding: 3rpx 10rpx; font-size: 16rpx; }
+
 /* ---------- 自创牌面：缩小放在韦特贴图下方 ---------- */
 .card-stack {
   width: 100%;

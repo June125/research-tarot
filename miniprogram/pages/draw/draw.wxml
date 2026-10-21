@@ -41,6 +41,7 @@
                   <view class="art-wrap">
                     <image class="art {{item.reversed ? 'rv' : ''}}" src="{{imgBase}}{{item.img}}" mode="aspectFit"></image>
                   </view>
+                  <view class="rv-badge" wx:if="{{item.reversed}}">🔄 换个角度</view>
                 </view>
               </view>
             </view>

@@ -114,8 +114,12 @@
   .sp-head .t{font-size:19px;font-weight:700;letter-spacing:3px;color:#fff3dd}
   .sp-head .s{font-size:11px;color:var(--dim);margin-top:5px;letter-spacing:1px}
   .sp-row{display:flex;gap:9px;margin-top:16px}
-  .sp{flex:1;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:8px 5px;text-align:center}
+  .sp{flex:1;position:relative;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:8px 5px;text-align:center}
+  .sp.rv{border-color:#f08a8a;box-shadow:0 0 0 1px rgba(240,138,138,.4)}
   .sp img{width:100%;height:112px;object-fit:cover;border-radius:7px;display:block}
+  .sp img.rv{transform:rotate(180deg)}
+  .rb{position:absolute;top:5px;left:5px;z-index:4;font-size:10px;line-height:1;padding:3px 7px;border-radius:20px;
+    color:#fff;background:linear-gradient(135deg,#f08a8a,#e06868);box-shadow:0 2px 6px rgba(224,104,104,.45);white-space:nowrap}
   .sp .slot{font-size:11px;color:var(--gold);margin-top:7px;letter-spacing:1px}
   .sp .nm{font-size:12px;color:#fff3dd;margin-top:2px}
   .sp .ori{font-size:9px;color:var(--dim);margin-top:2px}
@@ -381,7 +385,8 @@ function renderSpread(){
   var rh='',dh='';
   spread.forEach(function(o,i){
     var c=o.c;
-    rh+='<div class="sp"><img src="'+img(c.img)+'">'
+    rh+='<div class="sp'+(o.reversed?' rv':'')+'"><img class="'+(o.reversed?'rv':'')+'" src="'+img(c.img)+'">'
+      +(o.reversed?'<div class="rb">🔄 换个角度</div>':'')
       +'<div class="slot">'+SLOT_MINI[i]+'</div>'
       +'<div class="nm">'+c.name+'</div>'
       +'<div class="ori">'+(o.reversed?'换个角度看':'这条建议')+'</div></div>';
