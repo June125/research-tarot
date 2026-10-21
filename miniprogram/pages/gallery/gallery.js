@@ -1,7 +1,8 @@
 const U = require('../../utils/cards.js');
+const COLLECT = require('../../utils/collect.js');
 
 const GROUPS = [
-  { key: 'major', label: '大阿尔卡纳' },
+  { key: 'major', label: '大牌 · 22 张' },
   { key: 'wands', label: '权杖 · 火' },
   { key: 'cups', label: '圣杯 · 水' },
   { key: 'swords', label: '宝剑 · 风' },
@@ -16,20 +17,28 @@ Page({
     curGroup: 'major',
     imgBase: IMG_BASE,
     list: [],
-    cur: null
+    cur: null,
+    collected: 0
   },
 
   onLoad: function () {
     this.loadGroup('major');
   },
 
+  onShow: function () {
+    this.setData({ collected: COLLECT.getAll().length });
+    this.loadGroup(this.data.curGroup);
+  },
+
   loadGroup: function (key) {
+    const owned = COLLECT.getAll();
     const list = U.cardsOf(key).map(function (c) {
       return Object.assign({}, c, {
+        owned: owned.indexOf(c.id) >= 0,
         sub: c.scene ? c.scene : (c.arcana === 'major' ? c.en : c.suitName)
       });
     });
-    this.setData({ curGroup: key, list: list });
+    this.setData({ curGroup: key, list: list, collected: owned.length });
   },
 
   switchGroup: function (e) {
@@ -48,6 +57,6 @@ Page({
   noop: function () {},
 
   onShareAppMessage: function () {
-    return { title: '科研塔罗牌 · 78 张完整牌库', path: '/pages/index/index' };
+    return { title: '今日科研卡 · 78 张完整牌库', path: '/pages/index/index' };
   }
 });

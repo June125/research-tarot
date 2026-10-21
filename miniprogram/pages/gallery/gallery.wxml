@@ -4,11 +4,14 @@
           data-k="{{item.key}}" bindtap="switchGroup">{{item.label}}</view>
   </scroll-view>
 
+  <view class="collect-bar">已收集 {{collected}} / 78 张　·　抽到的卡会自动收进这里</view>
+
   <view class="grid">
-    <view class="mini" wx:for="{{list}}" wx:key="id" data-i="{{index}}" bindtap="openSheet">
+    <view class="mini {{item.owned ? '' : 'dim'}}" wx:for="{{list}}" wx:key="id" data-i="{{index}}" bindtap="openSheet">
       <image class="thumb" src="{{imgBase}}{{item.img}}" mode="aspectFill" lazy-load></image>
       <view class="n">{{item.name}}</view>
       <view class="a">{{item.sub}}</view>
+      <view class="own" wx:if="{{item.owned}}">已收集</view>
     </view>
   </view>
 
@@ -34,15 +37,15 @@
         <view class="v">{{cur.quote}}</view>
       </view>
       <view class="sh-line">
-        <view class="k">正 位 · 事业学业</view>
+        <view class="k">正 向 · 事业学业</view>
         <view class="v up">{{cur.upright}}</view>
       </view>
       <view class="sh-line">
-        <view class="k">逆 位 · 事业学业</view>
+        <view class="k">提 醒 · 事业学业</view>
         <view class="v down">{{cur.revText}}</view>
       </view>
       <view class="sh-line rs">
-        <view class="k">科 研 预 测</view>
+        <view class="k">科 研 场 景</view>
         <view class="v">{{cur.research}}</view>
       </view>
       <view class="sh-line">

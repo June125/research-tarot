@@ -1,0 +1,30 @@
+<view class="page about">
+  <view class="hd">关于今日科研卡</view>
+
+  <view class="sec">
+    <view class="t">这是什么</view>
+    <view class="p">一个面向研究生和科研工作者的趣味卡牌工具。每天随机给出一张提示卡，内容围绕开题、组会、投稿、经费、导师沟通、论文返修等科研日常场景，用来换换脑子、自我调侃，顺便给自己一个行动提醒。</view>
+  </view>
+
+  <view class="sec">
+    <view class="t">免责声明</view>
+    <view class="p">1. 本工具所有内容均为随机生成的娱乐性文本，<text class="em">不构成任何学术、职业、心理或投资建议</text>，请勿依据本工具内容作出退学、转组、撤稿、辞职等重大决定。</view>
+    <view class="p">2. 卡面文案为原创的科研场景化改写，与任何宗教或命理服务无关，仅为随机生成的娱乐性文本。</view>
+    <view class="p">3. 卡牌图案取自 1909 年出版、已进入公有领域的经典卡牌画册，仅作视觉素材使用。</view>
+  </view>
+
+  <view class="sec">
+    <view class="t">关于你的数据</view>
+    <view class="p">本工具<text class="em">不收集、不上传任何个人信息</text>，也无需注册登录。今日抽到的卡、收集进度仅保存在你手机本地（微信小程序的本地缓存），清除小程序缓存即会一并清除，我们无法读取。</view>
+  </view>
+
+  <view class="sec">
+    <view class="t">意见反馈</view>
+    <view class="p">发现 bug、想加牌、想改文案，欢迎反馈：</view>
+    <view class="p mail" bindtap="copyMail">feedback@example.com　（点击复制）</view>
+  </view>
+
+  <view class="btn ghost" bindtap="clearCollect">清空我的收集进度</view>
+
+  <view class="foot">今日科研卡 · v1.0</view>
+</view>

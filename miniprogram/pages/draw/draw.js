@@ -1,11 +1,13 @@
 const U = require('../../utils/cards.js');
+const COLLECT = require('../../utils/collect.js');
 const KEY = 'research_tarot_today';
-const SLOT = ['过去', '现在', '未来'];
+const SLOT = U.SLOT_MINI || ['现状', '卡点', '下一步'];
 
 /**
  * 牌图路径前缀
- *   本地图：'/assets/cards/'（已放在小程序目录内，78 张约 4.8MB，注意主包 2MB 限制）
- *   上线时建议把 assets/cards 传到 CDN，把这里换成 'https://你的域名/cards/'
+ *   本地图：'/assets/cards/'（已压缩至主包 2MB 以内）
+ *   若后续图变大，可上传到 CDN，把这里换成 'https://你的已备案域名/cards/'
+ *   （需同时在小程序后台配置 downloadFile 合法域名）
  */
 const IMG_BASE = '/assets/cards/';
 
@@ -32,9 +34,9 @@ Page({
   onLoad: function (opt) {
     const mode = (opt && opt.mode === 'three') ? 'three' : 'single';
     this.setData({ mode: mode });
-    wx.setNavigationBarTitle({ title: mode === 'single' ? '今日一抽' : '三张牌阵' });
+    wx.setNavigationBarTitle({ title: mode === 'single' ? '今日一卡' : '三卡组合' });
 
-    // 今日已抽过：直接回看，不重复洗牌
+    // 今日已抽过：直接回看，不重复发牌
     if (mode === 'single' && opt && opt.replay) {
       let rec = null;
       try { rec = wx.getStorageSync(KEY); } catch (e) { rec = null; }
@@ -55,17 +57,20 @@ Page({
 
   deal: function () {
     if (this.data.mode === 'single') {
-      // 今日一抽：只从 22 张大阿尔卡纳中抽
+      // 今日一卡：只从 22 张大牌里出
       const c = U.drawMajor();
       try {
         wx.setStorageSync(KEY, Object.assign({ date: todayKey() }, c));
       } catch (e) {}
+      COLLECT.add([c]);
       this.setData({ card: c, step: 'result', flipped: false });
       setTimeout(() => this.setData({ flipped: true }), 260);
     } else {
-      // 三张牌阵：全 78 张牌池，不重复
+      // 三卡组合：全 78 张牌池，不重复
+      const cs = U.drawMany(3);
+      COLLECT.add(cs);
       this.setData({
-        cards: U.drawMany(3),
+        cards: cs,
         flips: [false, false, false],
         detail: [],
         summary: null,
@@ -106,7 +111,9 @@ Page({
         quote: c.quote
       };
     });
-    this.setData({ detail: detail, summary: U.summaryOf(this.data.cards), showDetail: true });
+    // 综合提示（不带结论评级）
+    const s = U.summaryMini ? U.summaryMini(this.data.cards) : { text: '' };
+    this.setData({ detail: detail, summary: s, showDetail: true });
   },
 
   redraw: function () {
@@ -122,16 +129,16 @@ Page({
     let t = '';
     if (this.data.mode === 'single' && this.data.card) {
       const c = this.data.card;
-      t = '【科研塔罗 · 今日一抽】\n' + c.roman + ' ' + c.name + (c.scene ? '（' + c.scene + '）' : '')
-        + '（' + (c.reversed ? '逆位' : '正位') + '）\n'
-        + '解读：' + (c.reversed ? c.revText : c.upright) + '\n科研：' + c.research + '\n建议：' + c.advice;
+      t = '【今日科研卡】\n' + c.roman + ' ' + c.name + (c.scene ? '（' + c.scene + '）' : '')
+        + '（' + (c.reversed ? '提醒' : '正向') + '）\n'
+        + '提示：' + (c.reversed ? c.revText : c.upright) + '\n科研：' + c.research + '\n建议：' + c.advice;
     } else if (this.data.cards.length) {
-      const s = U.summaryOf(this.data.cards);
-      t = '【科研塔罗 · 三张牌阵】\n'
+      const s = U.summaryMini ? U.summaryMini(this.data.cards) : { text: '' };
+      t = '【今日科研卡 · 三卡组合】\n'
         + this.data.cards.map(function (c, i) {
-            return SLOT[i] + '：' + c.name + (c.scene ? '（' + c.scene + '）' : '') + '（' + (c.reversed ? '逆位' : '正位') + '）';
+            return SLOT[i] + '：' + c.name + (c.scene ? '（' + c.scene + '）' : '') + '（' + (c.reversed ? '提醒' : '正向') + '）';
           }).join('\n')
-        + '\n\n综合：' + s.level + '　' + s.text;
+        + '\n\n综合：' + s.text;
     }
     wx.setClipboardData({
       data: t,
@@ -144,7 +151,7 @@ Page({
   onShareAppMessage: function () {
     const title = this.data.mode === 'single' && this.data.card
       ? '我今天抽到了「' + this.data.card.name + '」，你呢？'
-      : '科研塔罗牌 · 三张牌阵';
+      : '今日科研卡 · 三卡组合';
     return { title: title, path: '/pages/index/index' };
   }
 });

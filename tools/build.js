@@ -143,7 +143,7 @@ const rows = cards.map(function (c, i) {
 });
 
 const js = `/**
- * 科研塔罗牌 · 牌库数据（78 张，韦特体系）
+ * 今日科研卡 · 牌库数据（78 张，经典卡牌体系）
  *
  * ⚠️ 本文件由 tools/build.js 自动生成，请勿直接编辑。
  *    编辑源：文案/牌义文案.md  ——  改完执行：node tools/build.js
@@ -151,7 +151,7 @@ const js = `/**
  * 字段说明：
  *   upright / revText   市面通行牌义（正位 / 逆位文案），已剥离感情线，只保留事业、学业、资源、协作
  *   reversed            运行时字段，表示本次抽到的是否逆位（布尔），由抽牌函数注入
- *   research            映射到科研场景的预测
+ *   research            映射到科研场景的提示
  *   advice              当天可执行的建议
  *   img                 牌图文件名，位于 assets/cards/（RWS 1909，公有领域）
  */
@@ -193,53 +193,33 @@ function drawMany(n) {
   return out;
 }
 
-/* 位置权重：过去 1 / 现在 3 / 未来 2 —— 现在位最重 */
-var SLOT_W = [1, 3, 2];
-/* 三张牌阵：按「正逆顺序组合」精确判定（U = 正位，R = 逆位） */
-var SPREAD_LV = {
-  UUU: { level: '大吉', tone: 'good', text: '三张全正位，过去、现在、未来一路通畅。已经想清楚的事这周就推进，别再反复论证了。' },
-  RUU: { level: '吉', tone: 'good', text: '过去那点磕绊已经翻篇，现在与未来都在正位。低谷过去了，趁这段顺势把落下的进度补回来。' },
-  UUR: { level: '吉', tone: 'good', text: '过去和现在都顺，只有未来位是逆的。给未来那张指出的环节留一手预案，顺势能保住。' },
-  URU: { level: '吉', tone: 'good', text: '现在位是唯一卡点，过去有底子、未来仍向好。集中处理现在这张的提醒就够了，不必全线调整。' },
-  RUR: { level: '小吉', tone: 'good', text: '过去有欠账、未来还有坎，只有现在是有力的。把现在的力气用在还账上，别同时开新战线——抓住现在这一张，局面还能拉回来。' },
-  RRU: { level: '吉', tone: 'good', text: '过去和现在都不太顺，但未来位是正的——触底回升的格局。先处理现在这张的提醒，好消息在后面。' },
-  URR: { level: '小吉', tone: 'good', text: '过去顺利、现在翻转、未来仍是逆位——下坠走势，但底子是好的。先复盘现在这个转折点，把损失止损在这一步，后面仍在你手上。' },
-  RRR: { level: '小凶', tone: 'bad', text: '三张全逆位，过去、现在、未来同时受阻——已经到底了，该暴露的问题都出齐了。今天适合复盘和休整，把三张的提醒各写成一条行动项。' }
+/* ---------- 三卡组合的综合提示 ----------
+   小程序端只输出不带结论标签的行动提示，不给出评级。
+   （网页版 preview/src.html 另有一套带评级档位的 summaryOf，网页不受此限） */
+var SLOT_MINI = ['现状', '卡点', '下一步'];
+var SPREAD_TIP = {
+  UUU: '三张都是正向卡，这几件事现在都推得动。挑最要紧的一件先做完，别摊太薄。',
+  RUU: '第一张是提醒位，后两张是正向。先把那件一直拖着的收个尾，后面会顺很多。',
+  UUR: '前两张正向、最后一张是提醒。收尾环节留一手预案，别在最后一步赶工。',
+  URU: '中间那张是提醒位，前后都正向。集中处理这一件事就够了，不用全线调整。',
+  RUR: '两张提醒夹着一张正向。力气集中在中间那件能动的，别同时开新战线。',
+  RRU: '前两张是提醒、最后一张正向。先把眼前这两条写成行动项，收尾会比现在顺。',
+  URR: '第一张正向，后两张是提醒。先复盘中间那个转折点，把范围收窄一点，别硬推。',
+  RRR: '三张都是提醒位，问题一次摊开反而好办。今天适合复盘和休整，各写一条行动项，明天再动。'
 };
-/* 唯一的「凶」：这一组牌 + 三张全逆位 —— 过载 → 崩塌 → 彻底黄
-   456,456 种排列 × 8 种正逆 = 3,651,648 种结果里，只有这一种判凶；
-   只要有一张是正位，就回到下面的正逆顺序系统正常判定 */
-var DOOM = ['权杖十', '高塔', '宝剑十'];
-var DOOM_LV = { level: '凶', tone: 'bad', doom: true,
-  text: '过去一个人扛下所有，现在突然崩塌，未来彻底触底——而且三张全是逆位。这是 456,456 种排列 × 8 种正逆组合 = 3,651,648 种结果里，唯一被判为凶的一种。抽到它也算一种运气：坏到底了，接下来每一步都是往上。今天只做一件事：把这三张的提醒各写一句，然后去睡一觉。' };
-function summaryOf(cards) {
-  if (cards.length === 3) {
-    var isDoom = true;
-    for (var i = 0; i < 3; i++) {
-      if (cards[i].name !== DOOM[i] || !cards[i].reversed) { isDoom = false; break; }
-    }
-    if (isDoom) return DOOM_LV;
+function summaryMini(cards) {
+  if (!cards || !cards.length) return { text: '' };
+  if (cards.length !== 3) {
+    return { text: '把每张卡的提醒各写成一条行动项，挑最要紧的先做。' };
   }
   var key = cards.map(function (c) { return c.reversed ? 'R' : 'U'; }).join('');
-  if (SPREAD_LV[key]) return SPREAD_LV[key];
-  var up = 0;
-  cards.forEach(function (c) { if (!c.reversed) up++; });
-  var total = cards.length;
-  if (up === total) {
-    return { level: '大吉', tone: 'good', text: '全正位，局势在你这边。想清楚的事就推进，别再反复论证。' };
-  }
-  if (up >= Math.ceil(total / 2)) {
-    return { level: '小吉', tone: 'good', text: '整体向好，但有一处需要你主动处理——重点看逆位那张牌的卡点。' };
-  }
-  if (up > 0) {
-    return { level: '平', tone: 'mid', text: '阻力略大于助力。别硬推，先解决逆位牌指出的卡点，再谈进度。' };
-  }
-  return { level: '小凶', tone: 'bad', text: '全逆位。今天适合躺平和复盘，不建议做任何重大决定——包括退学。' };
+  return { text: SPREAD_TIP[key] || '把这三张的提醒各写成一条行动项，挑最要紧的先做。' };
 }
 
 module.exports = {
   CARDS: CARDS, SUIT_ORDER: SUIT_ORDER,
-  cardsOf: cardsOf, drawMajor: drawMajor, drawOne: drawOne, drawMany: drawMany, summaryOf: summaryOf
+  cardsOf: cardsOf, drawMajor: drawMajor, drawOne: drawOne, drawMany: drawMany,
+  SLOT_MINI: SLOT_MINI, summaryMini: summaryMini
 };
 `;
 

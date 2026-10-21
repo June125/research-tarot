@@ -339,3 +339,65 @@ page {
   padding: 18rpx 20rpx;
   border-radius: 0 16rpx 16rpx 0;
 }
+
+/* ---------- 收集进度 / 关于页 ---------- */
+.collect-bar {
+  font-size: 22rpx;
+  color: #9d96bd;
+  letter-spacing: 1rpx;
+  padding: 8rpx 4rpx 22rpx;
+  text-align: center;
+}
+.mini .own {
+  position: absolute;
+  right: 8rpx;
+  top: 8rpx;
+  font-size: 18rpx;
+  color: #15122e;
+  background: #e8c877;
+  border-radius: 18rpx;
+  padding: 3rpx 12rpx;
+  letter-spacing: 1rpx;
+}
+.mini.dim { opacity: .42; }
+.mini.dim .thumb { filter: grayscale(1); }
+
+.page .foot {
+  margin-top: 46rpx;
+  text-align: center;
+  font-size: 23rpx;
+  color: #7d76a0;
+  letter-spacing: 2rpx;
+  padding-bottom: 40rpx;
+}
+
+/* 关于页 */
+.about { padding: 40rpx 32rpx 60rpx; }
+.about .hd {
+  font-size: 40rpx;
+  font-weight: 700;
+  letter-spacing: 4rpx;
+  color: #e8c877;
+  margin-bottom: 34rpx;
+}
+.about .sec { margin-bottom: 40rpx; }
+.about .sec .t {
+  font-size: 27rpx;
+  font-weight: 700;
+  color: #fff3dd;
+  letter-spacing: 2rpx;
+  margin-bottom: 16rpx;
+  padding-left: 16rpx;
+  border-left: 5rpx solid #e8c877;
+}
+.about .sec .p {
+  font-size: 25rpx;
+  line-height: 1.85;
+  color: #cbc5d8;
+  margin-bottom: 14rpx;
+}
+.about .sec .p .em { color: #e8c877; }
+.about .sec .p.mail {
+  color: #8fd0ff;
+  text-decoration: underline;
+}

@@ -9,7 +9,7 @@
       <view class="sb"><view class="backface"><view class="ring"></view><view class="mark">✦</view></view></view>
       <view class="sb"><view class="backface"><view class="ring"></view><view class="mark">✦</view></view></view>
     </view>
-    <view class="shuffle-txt">洗 牌 中</view>
+    <view class="shuffle-txt">发 牌 中</view>
   </block>
 
   <!-- 单张：今日一抽（只抽大阿尔卡纳） -->
@@ -35,7 +35,7 @@
         <text class="mine-sc" wx:if="{{card.scene}}">{{card.scene}}</text>
         </view>
         <view class="mine-kw">{{card.kw}}</view>
-        <view class="pos {{card.reversed ? 'down' : 'up'}}">{{card.reversed ? '逆位 · Reversed' : '正位 · Upright'}}</view>
+        <view class="pos {{card.reversed ? 'down' : 'up'}}">{{card.reversed ? '提醒 · Reversed' : '正向 · Upright'}}</view>
       </view>
     </view>
 
@@ -43,7 +43,7 @@
       <view class="txt">{{card.quote}}</view>
     </view>
     <view class="readout">
-      <view class="lb">解 读 · {{card.reversed ? '逆位' : '正位'}}（事业学业）</view>
+      <view class="lb">提 示 · {{card.reversed ? '提醒' : '正向'}}（事业学业）</view>
       <view class="txt">{{card.reversed ? card.revText : card.upright}}</view>
     </view>
     <view class="readout research">
@@ -101,7 +101,7 @@
         <view class="sd-h">
           <view class="nm">{{item.slot}} · {{item.title}}</view>
           <view class="sd-sc" wx:if="{{item.scene}}">{{item.scene}}</view>
-          <view class="sd-tag {{item.reversed ? 'down' : 'up'}}">{{item.reversed ? '逆位' : '正位'}}</view>
+          <view class="sd-tag {{item.reversed ? 'down' : 'up'}}">{{item.reversed ? '提醒' : '正向'}}</view>
         </view>
         <view class="sd-qt" wx:if="{{item.quote}}">{{item.quote}}</view>
         <view class="sd-p">{{item.text}}</view>
@@ -111,7 +111,7 @@
     </view>
 
     <view class="summary" wx:if="{{showDetail}}">
-      <view class="lv {{summary.tone}}">{{summary.level}}<text class="doom-tag" wx:if="{{summary.doom}}">365 万分之一</text></view>
+      <view class="lv">综合提示</view>
       <view class="txt">{{summary.text}}</view>
     </view>
 

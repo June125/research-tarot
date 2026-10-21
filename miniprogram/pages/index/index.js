@@ -1,4 +1,5 @@
 const KEY = 'research_tarot_today';
+const COLLECT = require('../../utils/collect.js');
 
 function todayKey() {
   const d = new Date();
@@ -7,8 +8,9 @@ function todayKey() {
 
 Page({
   data: {
-    todayText: '只抽大阿尔卡纳 · 一天一次',
-    hasToday: false
+    todayText: '每天一张 · 从 22 张大牌里出',
+    hasToday: false,
+    collected: 0
   },
 
   onShow: function () {
@@ -21,14 +23,15 @@ Page({
     if (rec && rec.date === todayKey()) {
       this.setData({
         hasToday: true,
-        todayText: '今日已抽：' + rec.name + (rec.scene ? '（' + rec.scene + '）' : '') + '（' + (rec.reversed ? '逆位' : '正位') + '）· 点击查看'
+        todayText: '今日已抽：' + rec.name + (rec.scene ? '（' + rec.scene + '）' : '') + '（' + (rec.reversed ? '提醒' : '正向') + '）· 点击查看'
       });
     } else {
       this.setData({
         hasToday: false,
-        todayText: '只抽大阿尔卡纳 · 一天一次'
+        todayText: '每天一张 · 从 22 张大牌里出'
       });
     }
+    this.setData({ collected: COLLECT.getAll().length });
   },
 
   goSingle: function () {
@@ -45,5 +48,13 @@ Page({
 
   goGallery: function () {
     wx.navigateTo({ url: '/pages/gallery/gallery' });
+  },
+
+  goAbout: function () {
+    wx.navigateTo({ url: '/pages/about/about' });
+  },
+
+  onShareAppMessage: function () {
+    return { title: '今日科研卡 · 每天一张科研提示', path: '/pages/index/index' };
   }
 });
