@@ -230,6 +230,8 @@
   .summary .lv.good{color:var(--gold);}
   .summary .lv.mid{color:#cdc7dd;}
   .summary .lv.bad{color:var(--down);}
+  .summary .lv .doom-tag{display:inline-block;margin-left:10px;padding:2px 9px;border:1px solid var(--down);
+    border-radius:99px;font-size:10px;font-weight:400;letter-spacing:1px;color:var(--down);vertical-align:middle;}
   .summary p{margin:0;font-size:13px;line-height:1.8;color:#e9e4d8;}
 
   /* ---------- 图鉴 ---------- */
@@ -398,10 +400,15 @@ const SPREAD_LV = {
   RUR: { level:'平',   tone:'mid',  text:'过去有欠账、未来还有坎，只有现在是有力的。把现在的力气用在还账上，别同时开新战线。' },
   RRU: { level:'平',   tone:'mid',  text:'过去和现在都不太顺，但未来位是正的——触底回升的格局。先处理现在这张的提醒，好消息在后面。' },
   URR: { level:'小凶', tone:'bad',  text:'下坠走势：过去顺利、现在翻转、未来仍是逆位。先复盘现在这个转折点，把损失止损在这一步，别硬推。' },
-  RRR: { level:'凶',   tone:'bad',  text:'三张全逆位，过去、现在、未来同时受阻——最差的一种组合，但也意味着问题全部摊开了。今天别做重大决定，先停一天，把三张的提醒各写成一条行动项。' }
+  RRR: { level:'小凶', tone:'bad',  text:'三张全逆位，过去、现在、未来同时受阻——已经到底了，该暴露的问题都出齐了。今天适合复盘和休整，把三张的提醒各写成一条行动项。' }
 };
+/* 唯一的「凶」：45 万种排列里只有这一组牌 —— 过载 → 崩塌 → 彻底黄 */
+const DOOM = ['权杖十', '高塔', '宝剑十'];
+const DOOM_LV = { level:'凶', tone:'bad', doom:true,
+  text:'过去一个人扛下所有，现在突然崩塌，未来彻底触底——这是 78×77×76 = 456,456 种排列里唯一被判为凶的组合。抽到它也算一种运气：坏到底了，接下来每一步都是往上。今天只做一件事：把这三张的提醒各写一句，然后去睡一觉。' };
 function summaryOf(cs){
   const t = cs.length;
+  if (t === 3 && cs.every((c, i) => c.name === DOOM[i])) return DOOM_LV;
   const key = cs.map(c => c.reversed ? 'R' : 'U').join('');
   if (SPREAD_LV[key]) return SPREAD_LV[key];
   /* 非三张时按正位占比兜底 */
@@ -589,7 +596,8 @@ function renderSpreadDetail(){
   const s = summaryOf(currentThree);
   const sum = document.getElementById('sp-sum');
   sum.style.display = 'block';
-  sum.innerHTML = '<div class="lv ' + (s.tone || 'good') + '">' + s.level + '</div><p>' + s.text + '</p>';
+  sum.innerHTML = '<div class="lv ' + (s.tone || 'good') + '">' + s.level
+    + (s.doom ? '<span class="doom-tag">45 万分之一</span>' : '') + '</div><p>' + s.text + '</p>';
 }
 
 /* ============ 图鉴 ============ */

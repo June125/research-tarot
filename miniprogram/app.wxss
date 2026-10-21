@@ -270,6 +270,7 @@ page {
 .summary .lv.good { color: #e8c877; }
 .summary .lv.mid { color: #cdc7dd; }
 .summary .lv.bad { color: #f08a8a; }
+.summary .lv .doom-tag { display: inline-block; margin-left: 16rpx; padding: 2rpx 14rpx; border: 1rpx solid #f08a8a; border-radius: 999rpx; font-size: 20rpx; font-weight: 400; letter-spacing: 2rpx; color: #f08a8a; vertical-align: middle; }
 .summary .txt { font-size: 26rpx; line-height: 1.8; color: #e9e4d8; }
 
 /* ---------- 分组 tab ---------- */
