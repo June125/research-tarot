@@ -267,6 +267,9 @@ page {
   padding: 34rpx 30rpx;
 }
 .summary .lv { font-size: 40rpx; font-weight: 700; letter-spacing: 8rpx; color: #e8c877; margin-bottom: 14rpx; }
+.summary .lv.good { color: #e8c877; }
+.summary .lv.mid { color: #cdc7dd; }
+.summary .lv.bad { color: #f08a8a; }
 .summary .txt { font-size: 26rpx; line-height: 1.8; color: #e9e4d8; }
 
 /* ---------- 分组 tab ---------- */

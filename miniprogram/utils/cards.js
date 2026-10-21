@@ -1608,20 +1608,35 @@ function drawMany(n) {
   return out;
 }
 
-/* 三张牌阵综合论断 */
+/* 位置权重：过去 1 / 现在 3 / 未来 2 —— 现在位最重 */
+var SLOT_W = [1, 3, 2];
+/* 三张牌阵：按「正逆顺序组合」精确判定（U = 正位，R = 逆位） */
+var SPREAD_LV = {
+  UUU: { level: '大吉', tone: 'good', text: '三张全正位，过去、现在、未来一路通畅。已经想清楚的事这周就推进，别再反复论证了。' },
+  RUU: { level: '吉', tone: 'good', text: '过去那点磕绊已经翻篇，现在与未来都在正位。低谷过去了，趁这段顺势把落下的进度补回来。' },
+  UUR: { level: '小吉', tone: 'good', text: '过去和现在都顺，只有未来位是逆的。给未来那张指出的环节留一手预案，顺势能保住。' },
+  URU: { level: '小吉', tone: 'good', text: '现在位是唯一卡点，过去有底子、未来仍向好。集中处理现在这张的提醒就够了，不必全线调整。' },
+  RUR: { level: '平', tone: 'mid', text: '过去有欠账、未来还有坎，只有现在是有力的。把现在的力气用在还账上，别同时开新战线。' },
+  RRU: { level: '平', tone: 'mid', text: '过去和现在都不太顺，但未来位是正的——触底回升的格局。先处理现在这张的提醒，好消息在后面。' },
+  URR: { level: '凶', tone: 'bad', text: '唯一的下坠走势：过去顺利、现在翻转、未来仍是逆位。今天别硬推，先复盘现在这个转折点，把损失止损在这一步。' },
+  RRR: { level: '小凶', tone: 'bad', text: '三张全逆位，但已经到底了——该暴露的问题都出齐了。今天适合复盘和休整，把三张的提醒各写成一条行动项。' }
+};
 function summaryOf(cards) {
-  var up = cards.filter(function (c) { return !c.reversed; }).length;
+  var key = cards.map(function (c) { return c.reversed ? 'R' : 'U'; }).join('');
+  if (SPREAD_LV[key]) return SPREAD_LV[key];
+  var up = 0;
+  cards.forEach(function (c) { if (!c.reversed) up++; });
   var total = cards.length;
   if (up === total) {
-    return { level: '大吉', text: '三张全正位，局势在你这边。已经想清楚的事这周就推进，别再反复论证了。' };
+    return { level: '大吉', tone: 'good', text: '全正位，局势在你这边。想清楚的事就推进，别再反复论证。' };
   }
   if (up >= Math.ceil(total / 2)) {
-    return { level: '小吉', text: '整体向好，但有一处需要你主动处理——重点看逆位那张牌的卡点。' };
+    return { level: '小吉', tone: 'good', text: '整体向好，但有一处需要你主动处理——重点看逆位那张牌的卡点。' };
   }
   if (up > 0) {
-    return { level: '平', text: '阻力略大于助力。别硬推，先解决逆位牌指出的卡点，再谈进度。' };
+    return { level: '平', tone: 'mid', text: '阻力略大于助力。别硬推，先解决逆位牌指出的卡点，再谈进度。' };
   }
-  return { level: '凶', text: '全逆位。今天适合躺平和复盘，不建议做任何重大决定——包括退学。' };
+  return { level: '小凶', tone: 'bad', text: '全逆位。今天适合躺平和复盘，不建议做任何重大决定——包括退学。' };
 }
 
 module.exports = {

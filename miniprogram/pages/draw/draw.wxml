@@ -111,7 +111,7 @@
     </view>
 
     <view class="summary" wx:if="{{showDetail}}">
-      <view class="lv">{{summary.level}}</view>
+      <view class="lv {{summary.tone}}">{{summary.level}}</view>
       <view class="txt">{{summary.text}}</view>
     </view>
 

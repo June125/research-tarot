@@ -228,6 +228,9 @@
   .summary{margin-top:4px;width:100%;background:linear-gradient(135deg,rgba(232,200,119,.14),rgba(232,200,119,.03));
     border:1px solid var(--line);border-radius:var(--radius);padding:18px;}
   .summary .lv{font-size:20px;font-weight:700;letter-spacing:4px;color:var(--gold);margin-bottom:8px;}
+  .summary .lv.good{color:var(--gold);}
+  .summary .lv.mid{color:#cdc7dd;}
+  .summary .lv.bad{color:var(--down);}
   .summary p{margin:0;font-size:13px;line-height:1.8;color:#e9e4d8;}
 
   /* ---------- 图鉴 ---------- */
@@ -361,7 +364,7 @@ const CARDS = [{"id":0,"roman":"0","name":"愚者","en":"The Fool","emoji":"🎲
 const IMG_BASE = './assets/cards/';
 /* 内嵌牌图。单机版由 tools/build_standalone.js 填充 IMG_DATA；本地开发留空则走相对路径 */
 const IMG_DATA = {};
-const BUILD_AT = '2026-10-21 15:40';   /* 单机版由 build_standalone.js 填入构建时间，用来确认你看到的是不是最新文件 */
+const BUILD_AT = '2026-10-21 15:53';   /* 单机版由 build_standalone.js 填入构建时间，用来确认你看到的是不是最新文件 */
 function imgSrc(f){ return IMG_DATA[f] || IMG_BASE + f; }
 const SLOT = ['过去', '现在', '未来'];
 const STORE_KEY = 'research_tarot_today';
@@ -385,12 +388,29 @@ function pickMany(n){
   }
   return out;
 }
+/* 位置权重：过去 1 / 现在 3 / 未来 2 —— 现在位最重 */
+const SLOT_W = [1, 3, 2];
+/* 三张牌阵：按「正逆顺序组合」精确判定（U = 正位，R = 逆位） */
+const SPREAD_LV = {
+  UUU: { level:'大吉', tone:'good', text:'三张全正位，过去、现在、未来一路通畅。已经想清楚的事这周就推进，别再反复论证了。' },
+  RUU: { level:'吉',   tone:'good', text:'过去那点磕绊已经翻篇，现在与未来都在正位。低谷过去了，趁这段顺势把落下的进度补回来。' },
+  UUR: { level:'小吉', tone:'good', text:'过去和现在都顺，只有未来位是逆的。给未来那张指出的环节留一手预案，顺势能保住。' },
+  URU: { level:'小吉', tone:'good', text:'现在位是唯一卡点，过去有底子、未来仍向好。集中处理现在这张的提醒就够了，不必全线调整。' },
+  RUR: { level:'平',   tone:'mid',  text:'过去有欠账、未来还有坎，只有现在是有力的。把现在的力气用在还账上，别同时开新战线。' },
+  RRU: { level:'平',   tone:'mid',  text:'过去和现在都不太顺，但未来位是正的——触底回升的格局。先处理现在这张的提醒，好消息在后面。' },
+  URR: { level:'凶',   tone:'bad',  text:'唯一的下坠走势：过去顺利、现在翻转、未来仍是逆位。今天别硬推，先复盘现在这个转折点，把损失止损在这一步。' },
+  RRR: { level:'小凶', tone:'bad',  text:'三张全逆位，但已经到底了——该暴露的问题都出齐了。今天适合复盘和休整，把三张的提醒各写成一条行动项。' }
+};
 function summaryOf(cs){
-  const up = cs.filter(c => !c.reversed).length, t = cs.length;
-  if (up === t) return { level:'大吉', text:'三张全正位，局势在你这边。已经想清楚的事这周就推进，别再反复论证了。' };
-  if (up >= Math.ceil(t / 2)) return { level:'小吉', text:'整体向好，但有一处需要你主动处理——重点看逆位那张牌的卡点。' };
-  if (up > 0) return { level:'平', text:'阻力略大于助力。别硬推，先解决逆位卡点，再谈进度。' };
-  return { level:'凶', text:'全逆位。今天适合躺平和复盘，不建议做任何重大决定——包括退学。' };
+  const t = cs.length;
+  const key = cs.map(c => c.reversed ? 'R' : 'U').join('');
+  if (SPREAD_LV[key]) return SPREAD_LV[key];
+  /* 非三张时按正位占比兜底 */
+  const up = cs.filter(c => !c.reversed).length;
+  if (up === t) return { level:'大吉', tone:'good', text:'全正位，局势在你这边。想清楚的事就推进，别再反复论证。' };
+  if (up >= Math.ceil(t / 2)) return { level:'小吉', tone:'good', text:'整体向好，但有一处需要你主动处理——重点看逆位那张牌的卡点。' };
+  if (up > 0) return { level:'平', tone:'mid', text:'阻力略大于助力。别硬推，先解决逆位牌指出的卡点，再谈进度。' };
+  return { level:'小凶', tone:'bad', text:'全逆位。今天适合躺平和复盘，不建议做任何重大决定——包括退学。' };
 }
 function show(id){
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('on'));
@@ -570,7 +590,7 @@ function renderSpreadDetail(){
   const s = summaryOf(currentThree);
   const sum = document.getElementById('sp-sum');
   sum.style.display = 'block';
-  sum.innerHTML = '<div class="lv">' + s.level + '</div><p>' + s.text + '</p>';
+  sum.innerHTML = '<div class="lv ' + (s.tone || 'good') + '">' + s.level + '</div><p>' + s.text + '</p>';
 }
 
 /* ============ 图鉴 ============ */
