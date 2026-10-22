@@ -10,21 +10,22 @@
     --gold:#e8c877; --txt:#e8e4f5; --sub:#9d96bd; --dim:#7d76a0;
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%;}
   body{margin:0;background:#08071a;color:var(--txt);
     font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",sans-serif;
-    display:flex;flex-direction:column;align-items:center;padding:22px 12px 60px;min-height:100vh}
-  .tip{color:#8b84ad;font-size:13px;line-height:1.9;text-align:center;max-width:640px;margin-bottom:18px}
-  .tip b{color:var(--gold)}
-  .phone{width:390px;height:780px;background:var(--bg);border-radius:38px;
-    border:9px solid #26234a;box-shadow:0 30px 70px rgba(0,0,0,.6);position:relative;overflow:hidden;
+    display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .stage{display:flex;flex-direction:column;width:100%;max-width:520px;height:100vh;height:100dvh}
+  .phone{flex:1;min-height:0;width:100%;background:var(--bg);position:relative;overflow:hidden;
     display:flex;flex-direction:column}
-  .navi{height:88px;background:var(--panel);display:flex;align-items:flex-end;justify-content:center;
-    padding-bottom:12px;font-size:17px;font-weight:600;letter-spacing:1px;flex:0 0 auto}
+  .navi{height:58px;background:var(--panel);display:flex;align-items:center;justify-content:center;
+    font-size:17px;font-weight:600;letter-spacing:1px;flex:0 0 auto;
+    padding-top:env(safe-area-inset-top);box-shadow:0 1px 0 rgba(232,200,119,.08)}
   .body{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
   .body::-webkit-scrollbar{width:0}
-  .page{padding:0 26rpx 40px;padding-left:16px;padding-right:16px}
-  .tabbar{height:74px;background:var(--panel);border-top:1px solid var(--line);
-    display:flex;align-items:flex-start;padding-top:10px;flex:0 0 auto}
+  .page{padding:0 20px 40px}
+  .tabbar{background:var(--panel);border-top:1px solid var(--line);
+    display:flex;align-items:flex-start;padding:9px 0 7px;flex:0 0 auto;
+    padding-bottom:calc(7px + env(safe-area-inset-bottom))}
   .tb{flex:1;text-align:center;font-size:11px;color:var(--dim);cursor:pointer;user-select:none}
   .tb .ico{font-size:20px;display:block;margin-bottom:3px;filter:grayscale(1);opacity:.6}
   .tb.on{color:var(--gold)}
@@ -143,20 +144,18 @@
   .about .sec .p{font-size:12px;line-height:1.85;color:#cbc5d8;margin-bottom:8px}
   .about .sec .p .em{color:var(--gold)}
   .about .foot{margin-top:26px;text-align:center;font-size:11px;color:var(--dim);letter-spacing:1px}
-  .pv-foot{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:16px;
-    font-size:12px;color:#8b84ad;letter-spacing:.5px}
+  .pv-foot{flex:0 0 auto;display:flex;align-items:center;justify-content:center;gap:12px;
+    padding:9px 12px;font-size:12px;color:#8b84ad;letter-spacing:.5px;
+    background:#08071a;border-top:1px solid rgba(232,200,119,.08)}
   .pv-foot b{color:var(--gold);font-weight:600;font-variant-numeric:tabular-nums}
   .pv-foot .d{opacity:.45}
-  .hint{color:#5f598a;font-size:11px;margin-top:14px;text-align:center}
+  .hint{color:#5f598a;font-size:11px;margin:14px 0 0;text-align:center}
+  .build-note{flex:0 0 auto;color:#5f598a;font-size:10.5px;padding:0 12px calc(10px + env(safe-area-inset-bottom));text-align:center;background:#08071a}
 </style>
 </head>
 <body>
 
-<div class="tip">
-  这是 <b>微信小程序版（v3 卡片库为主版）</b> 的界面预览，用手机壳模拟三个页面的真实交互。<br>
-  牌图、文案、综合提示全部与 <b>miniprogram/</b> 打包内容一致 —— 点底部三个 tab 切换页面，卡片可点开。
-</div>
-
+<div class="stage">
 <div class="phone">
   <div class="navi" id="navi">科研灵感卡</div>
   <div class="body">
@@ -289,7 +288,8 @@
   <span>🧭 访客 <b id="busuanzi_value_site_uv">—</b></span>
 </div>
 
-<div class="hint">构建版本 <span id="ba"></span> · 模拟界面，非小程序真机</div>
+<div class="build-note">界面预览 · 构建于 <span id="ba"></span></div>
+</div>
 
 <script>
 var IMG_DATA = __IMG_DATA__;
