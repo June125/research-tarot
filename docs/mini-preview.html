@@ -143,6 +143,10 @@
   .about .sec .p{font-size:12px;line-height:1.85;color:#cbc5d8;margin-bottom:8px}
   .about .sec .p .em{color:var(--gold)}
   .about .foot{margin-top:26px;text-align:center;font-size:11px;color:var(--dim);letter-spacing:1px}
+  .pv-foot{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:16px;
+    font-size:12px;color:#8b84ad;letter-spacing:.5px}
+  .pv-foot b{color:var(--gold);font-weight:600;font-variant-numeric:tabular-nums}
+  .pv-foot .d{opacity:.45}
   .hint{color:#5f598a;font-size:11px;margin-top:14px;text-align:center}
 </style>
 </head>
@@ -278,6 +282,13 @@
   </div>
 </div>
 
+<!-- 底部：浏览量 / 访客（不蒜子 Busuanzi） -->
+<div class="pv-foot">
+  <span>👁 浏览量 <b id="busuanzi_value_page_pv">—</b></span>
+  <span class="d">·</span>
+  <span>🧭 访客 <b id="busuanzi_value_site_uv">—</b></span>
+</div>
+
 <div class="hint">构建版本 <span id="ba"></span> · 模拟界面，非小程序真机</div>
 
 <script>
@@ -286,7 +297,7 @@ var CARDS = [{"id":0,"arcana":"major","suit":null,"suitName":"主牌","element":
 var SUIT_ORDER = [{"key":"major","label":"主牌","en":"Main · 22 张"},{"key":"wands","label":"权杖","en":"Wands · 火"},{"key":"cups","label":"圣杯","en":"Cups · 水"},{"key":"swords","label":"宝剑","en":"Swords · 风"},{"key":"pent","label":"星币","en":"Pentacles · 土"}];
 var SLOT_MINI = ["卡在哪","怎么破","怎么收"];
 var SPREAD_TIP = {"UUU":"三条都能直接照做。先按「卡在哪」确认问题，把「怎么破」今天落地一半，收尾用「怎么收」兜底。","RUU":"起步别纠结，「卡在哪」那条先换个角度看，把力气花在「怎么破」上，「怎么收」照做即可。","UUR":"前两条照常推进，最后一步留个备选——「怎么收」那格给了另一个角度，提前想好 Plan B。","URU":"卡点清楚，「怎么破」那格需要换个角度看。先照「卡在哪」确认范围，再从新角度试一次破法。","RUR":"两头的信息有点绕，中间「怎么破」是唯一主线。只做这一件事，前后两条留到明天再对。","RRU":"前两格都提示换角度，只有「怎么收」是明确可执行的。先把收尾做好，再回头处理前两条。","URR":"起点是清楚的，破法和收尾都要换角度。今天就做一件事：照「卡在哪」把问题写下来，破法明天再定。","RRR":"三条都建议换个角度看，说明旧思路该整体翻新了。今天先把三条抄下来对照着看，明天再动手。"};
-var BUILD_AT = '2026-10-21 23:41';
+var BUILD_AT = '2026-10-22 12:37';
 
 var KEY='rt_read_v3';
 function reads(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){return[]}}
@@ -415,5 +426,8 @@ function showDrawMail(){
 renderTabs();renderGrid();renderDaily();
 document.getElementById('ba').textContent=BUILD_AT;
 </script>
+
+<!-- 不蒜子浏览量/访客计数（免费 · 免注册 · 纯前端） -->
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </body>
 </html>

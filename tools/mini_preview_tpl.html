@@ -143,6 +143,10 @@
   .about .sec .p{font-size:12px;line-height:1.85;color:#cbc5d8;margin-bottom:8px}
   .about .sec .p .em{color:var(--gold)}
   .about .foot{margin-top:26px;text-align:center;font-size:11px;color:var(--dim);letter-spacing:1px}
+  .pv-foot{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:16px;
+    font-size:12px;color:#8b84ad;letter-spacing:.5px}
+  .pv-foot b{color:var(--gold);font-weight:600;font-variant-numeric:tabular-nums}
+  .pv-foot .d{opacity:.45}
   .hint{color:#5f598a;font-size:11px;margin-top:14px;text-align:center}
 </style>
 </head>
@@ -276,6 +280,13 @@
     <div class="tb" data-p="collection" onclick="go('collection')"><span class="ico">⭐</span>我的收藏</div>
     <div class="tb" data-p="about" onclick="go('about')"><span class="ico">📄</span>关于</div>
   </div>
+</div>
+
+<!-- 底部：浏览量 / 访客（不蒜子 Busuanzi） -->
+<div class="pv-foot">
+  <span>👁 浏览量 <b id="busuanzi_value_page_pv">—</b></span>
+  <span class="d">·</span>
+  <span>🧭 访客 <b id="busuanzi_value_site_uv">—</b></span>
 </div>
 
 <div class="hint">构建版本 <span id="ba"></span> · 模拟界面，非小程序真机</div>
@@ -415,5 +426,8 @@ function showDrawMail(){
 renderTabs();renderGrid();renderDaily();
 document.getElementById('ba').textContent=BUILD_AT;
 </script>
+
+<!-- 不蒜子浏览量/访客计数（免费 · 免注册 · 纯前端） -->
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </body>
 </html>
