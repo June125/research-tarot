@@ -54,7 +54,10 @@ page {
 .btn .t { display: block; font-size: 31rpx; font-weight: 600; }
 .btn .d { display: block; font-size: 23rpx; color: #9d96bd; margin-top: 6rpx; }
 .btn-row { display: flex; margin-top: 30rpx; }
-.btn-row .btn { margin-bottom: 0; margin-right: 20rpx; justify-content: center; background: rgba(255, 255, 255, .05); }
+.btn-row .btn { margin-bottom: 0; margin-right: 20rpx; justify-content: center;
+  background: linear-gradient(135deg, #e8c877 0%, #d4a94f 100%);
+  border-color: #e8c877; color: #15122e; }
+.btn-row .btn .t { font-weight: 700; }
 .btn-row .btn:last-child { margin-right: 0; }
 .btn-row .btn .ico { margin-right: 10rpx; width: auto; font-size: 30rpx; }
 
@@ -542,8 +545,10 @@ page {
   margin-top: 26rpx;
   padding: 16rpx 52rpx;
   border-radius: 44rpx;
-  background: #2c6e49;
-  color: #fff;
+  background: linear-gradient(135deg, #e8c877 0%, #d4a94f 100%);
+  border: 1rpx solid #e8c877;
+  color: #15122e;
+  font-weight: 700;
   font-size: 26rpx;
   letter-spacing: 3rpx;
 }
