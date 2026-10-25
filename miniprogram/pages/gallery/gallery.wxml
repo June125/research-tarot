@@ -20,7 +20,7 @@
       <text class="ico">📬</text>
       <text>查收 Result</text>
     </view>
-    <view class="gh-btn ghost" bindtap="goThree">
+    <view class="gh-btn accent" bindtap="goThree">
       <text class="ico">🧭</text>
       <text>我该怎么做</text>
     </view>
